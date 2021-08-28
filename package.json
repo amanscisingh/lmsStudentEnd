@@ -1,0 +1,30 @@
+{
+  "name": "lmsteacherend",
+  "version": "1.0.0",
+  "description": "Teacher End of the LMS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amanscisingh/lmsTeacherEnd.git"
+  },
+  "author": "Aman Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amanscisingh/lmsTeacherEnd/issues"
+  },
+  "homepage": "https://github.com/amanscisingh/lmsTeacherEnd#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "google-auth-library": "^7.6.2",
+    "mongoose": "^6.0.2",
+    "nodemon": "^2.0.12"
+  }
+}

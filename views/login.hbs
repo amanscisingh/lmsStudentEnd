@@ -1,0 +1,161 @@
+<h3>login page</h3>
+
+<div class="g-signin2" data-onsuccess="onSignIn">
+
+</div>
+
+<a href="#" onclick="signOut();">Sign out</a>
+<hr>
+<div class="headContainer">
+    <div class="formContainer">
+        <h1>Enter Credentials Here:</h1>
+        <form id="form" action="" method="POST">
+            <input name="email" type="email" placeholder="Enter Email here" id="email"> <a id='checkEmailBtn'>👉👉👉</a> <br>
+            <input name="firstName" type="text" style="visibility: hidden;" placeholder="Enter First Name here" id="firstName">
+            <input name="lastName" type="text" style="visibility: hidden;" placeholder="Enter Last Name here" id="lastName">
+            <input name="password" id="inputPassword" style="visibility: hidden;" type="password" placeholder="Enter Password here" id="password"><br>
+            <input name="confirmPassword" id="inputPasswordAgain" style="visibility: hidden;" type="password" placeholder="Confirm Password here" id="password"><br>
+            <input id="submitButton" style="visibility: hidden;" type="submit" value="Login/SignUP">
+        </form>
+    </div>
+</div>
+
+<style>
+    .headContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.formContainer {
+    width: 300px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    padding: 20px;
+}
+
+.formContainer > h1 {
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+
+#email{
+    height: 30px;
+    margin-bottom: 10px;
+    background-color: white;
+    width: 98%;
+  }
+
+input{
+    height: 30px;
+    margin-bottom: 10px;
+    background-color: white;
+    width: 98%;
+}
+
+#password{
+  height: 30px;
+  margin-bottom: 10px;
+  background-color: white;
+  width: 98%;
+}
+
+  #submitButton{
+    background: #f0c14b;
+    border-radius: 2px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid;
+    margin-top: 10px;
+    border-color: #a88734 #9c7e31 #846a29;
+  }
+
+  .login__registerButton {
+    border-radius: 2px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid;
+    margin-top: 10px;
+    border-color: darkgray;
+  }
+</style>
+
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<script>
+    function onSignIn(googleUser) {
+        // var profile = googleUser.getBasicProfile();
+        var id_token = googleUser.getAuthResponse().id_token;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/auth/login');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            console.log('Signed in as: ' + xhr.responseText);
+            if (xhr.responseText === "success") {
+                location.assign("/teacherDashboard");
+            }
+        };
+        xhr.send(JSON.stringify({ token: id_token }));
+    }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+        console.log('User signed out.');
+        });
+    }
+
+
+    const inputPassword = document.getElementById('inputPassword');
+    const submitButton = document.getElementById('submitButton');
+    const checkEmailBtn = document.getElementById('checkEmailBtn');
+    const inputPasswordAgain = document.getElementById('inputPasswordAgain');
+    const email = document.getElementById('email');
+    const firstName = document.getElementById('firstName');
+    const lastName = document.getElementById('lastName');
+    const form = document.getElementById('form');
+    console.log(checkEmailBtn);
+
+    checkEmailBtn.addEventListener('click', function() {
+        let URL = 'http://localhost:4500/api/' + document.getElementById('email').value;
+        console.log(URL);
+        fetch(URL).then(res => res.json()).then(data => {
+            if (data['status'] == "success") {
+                if (data["isGoogle"]) {
+                    // tell him to login with google
+                    checkEmailBtn.innerHTML = "🙏🙏🙏Login with Google🙏🙏🙏";
+                    email.style.visibility = "hidden";
+
+                } else {
+                    // tell him to login with custom email
+                    form.setAttribute('action', '/auth/customLogin')
+                    checkEmailBtn.innerText = "👍👍👍";
+                    inputPassword.style.visibility = 'visible';
+                    submitButton.style.visibility = 'visible';
+                }
+            } else {
+                checkEmailBtn.innerText = "👎👎👎";
+                setTimeout(()=>{
+                    setTimeout(()=>{
+                        checkEmailBtn.innerText = "Email Does-not Exists... Please Create A new Account🙏🙏🙏";
+                        form.setAttribute('action', '/auth/customSignup')
+                        firstName.style.visibility = 'visible';
+                        lastName.style.visibility = 'visible';
+                        inputPasswordAgain.style.visibility = 'visible';
+                        inputPassword.style.visibility = 'visible';
+                        submitButton.style.visibility = 'visible';
+                    }, 1000)
+                    checkEmailBtn.innerText = "👉👉👉";
+                }, 1000)
+            }
+
+        })
+    });
+</script>

@@ -1,0 +1,31 @@
+<style>
+    .btn{
+        padding: 5px;
+        border-radius: 5px;
+        background-color: aquamarine;
+    }
+    .margin{
+        margin: 10px;
+    }
+    .className{
+        padding: 7px;
+        border-radius: 5px;
+    }
+    .formContainer{
+        margin-top: 20%;
+    }
+    .textArea{
+        border-radius: 5px;
+    }
+</style>
+<div style="text-align: center;" class="formContainer margin">
+    <h4>Form To Create Class</h4>
+
+    <form action="/teacherDashboard/create" method="POST" class="margin">
+        <input type="text" name="className" placeholder="Class Name" class="margin className"> 
+        <br>
+        <textarea name="classDescription" id="classDescription" cols="30" rows="10" class="margin textArea"></textarea>
+        <br>
+        <input type="submit" value="Create Class" class="btn margin">
+    </form>
+</div>

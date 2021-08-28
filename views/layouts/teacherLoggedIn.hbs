@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            
+        }
+        .header{
+            display : flex;
+            justify-content: flex-end;
+            padding: 27px;
+            box-shadow: 2px 2px 10px 2px gray;
+        }
+        .add_class_icon{
+            text-decoration: none;
+            position: absolute;
+            top: 1.9rem;
+            right: 4.6rem;
+        }
+        .heading_logo_text{
+            position: absolute;
+            left: 5rem;
+        }
+        .heading_logo_img{
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            left: 1rem; top: 0.4rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="http://old.iitbhu.ac.in/icmc2018/apm/images/IITBHU-Logo.jpg" alt="iit_bhu_logo" class="heading_logo_img"/>
+        <h3 class="heading_logo_text">IIT BHU</h3>
+        <a href="/teacherDashboard/create" class="add_class_icon">✔ create class</a>
+        <h3 class="login_icon">👍</h3>
+    </div>
+    {{{ body }}}
+</body>
+</html>
