@@ -99,7 +99,7 @@ input{
         xhr.onload = function() {
             console.log('Signed in as: ' + xhr.responseText);
             if (xhr.responseText === "success") {
-                location.assign("/teacherDashboard");
+                location.assign("/studentDashboard");
             }
         };
         xhr.send(JSON.stringify({ token: id_token }));
@@ -124,7 +124,7 @@ input{
     console.log(checkEmailBtn);
 
     checkEmailBtn.addEventListener('click', function() {
-        let URL = 'http://localhost:4500/api/' + document.getElementById('email').value;
+        let URL = location.origin + '/api/' + document.getElementById('email').value;
         console.log(URL);
         fetch(URL).then(res => res.json()).then(data => {
             if (data['status'] == "success") {

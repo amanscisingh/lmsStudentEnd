@@ -32,7 +32,7 @@ authRoute.post('/login', (req, res)=> {
                     lastName: payload.family_name,
                     image : payload.picture,
                     email: payload.email,
-                    designation: 'teacher',
+                    designation: 'student',
                 });
 
                 await newUser.save();
@@ -68,13 +68,13 @@ authRoute.post('/customSignup', async (req, res)=> {
             password: password,
             firstName: firstName,
             lastName: lastName,
-            designation: 'teacher',
+            designation: 'student',
         });
 
         if (password === confirmPassword) {
             await newUser.save();
             res.cookie('email', email);
-            res.redirect('/teacherDashboard');
+            res.redirect('/studentDashboard');
         }
         else {
             res.send('password mismatch');
@@ -94,7 +94,7 @@ authRoute.post('/customLogin', async (req, res)=> {
         if (userData) {
             if (userData.password === password) {
                 res.cookie('email', email);
-                res.redirect('/teacherDashboard');
+                res.redirect('/studentDashboard');
             }
             else {
                 res.send('password mismatch');

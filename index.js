@@ -45,5 +45,5 @@ app.use(cookieParser());
 // routes
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
-app.use('/teacherDashboard', require('./routes/teacherDashboard'));
+app.use('/studentDashboard', require('./routes/studentDashboard'));
 app.use('/api', require('./routes/api'));
