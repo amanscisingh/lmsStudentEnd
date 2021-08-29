@@ -4,6 +4,7 @@ const Classes = require('../models/Classes.js');
 const Users = require('../models/Users.js');
 const Assignments = require('../models/Assignments.js');
 const mongoose =   require('mongoose');
+const ScheduledClasses= require('../models/ScheduledClasses.js')
 
 
 // /studentDashboard
@@ -45,6 +46,8 @@ studentDashboardRoute.get('/:classCode', async (req, res) => {
         let allAssignmentsandTests = await Assignments.find({ classCode: classCode }).lean();
         let allAssignments = []
         let allTests = []
+        let allScheduledClasses = await ScheduledClasses.find({ classCode: classCode }).lean();
+        console.log("allScheduledClasses=",allScheduledClasses)
         for (let i = 0; i < allAssignmentsandTests.length; i++) {
             if (allAssignmentsandTests[i].type == 'assignment') {
                 allAssignments.push(allAssignmentsandTests[i]);
@@ -56,7 +59,7 @@ studentDashboardRoute.get('/:classCode', async (req, res) => {
         console.log('assign: ',allAssignments);
         console.log('test: ',allTests);
 
-        res.render('classDashboard', { layout: 'singleClass', classData: classData , classCode: classCode, allAssignments, allTests });
+        res.render('classDashboard', { layout: 'singleClass', classData: classData , classCode: classCode, allAssignments, allTests, allScheduledClasses });
     } catch (error) {
         res.send(error);
     }

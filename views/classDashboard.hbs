@@ -1,10 +1,24 @@
-<h3>Class Page</h3>
-
-<h4>{{classData.className}}</h4>
-<h4>{{classData.classDescription}}</h4>
-<h4>{{classData.classTeacher}}</h4>
+<div class="mainContainer">
+    <div class="subjectContainer">
+        <h1>{{classData.className}}</h2>
+        <h1>{{classData.classTeacher}}</h1>
+        <h2>Description-{{classData.classDescription}}</h2>
+        <a href="https://meet.google.com/{{classCode}}" class="defaultLink">Join Default Meet</h2></a>
+    </div>
+</div>
 
 <style>
+    .defaultLink{
+        text-decoration: none;
+        color: black;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    ..defaultLink:hover{
+        cursor: pointer;
+        color: aqua;
+    }
+
     .navBar{
         display: flex;
         flex-direction: row;
@@ -33,36 +47,106 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
 </style>
 
 <hr style="margin: 15px;">
 
 <div class="navbar">
-    <button class="btn" id="assignmentBtn">Assignment</button>
+    {{!-- <button class="btn" id="assignmentBtn">Assignment</button>
     <hr class="verticalSeperator">
     <button class="btn" id="testBtn">Test</button>
     <hr class="verticalSeperator">
-    <button class="btn" id="scheduledBtn">Scheduled Classes</button>
+    <button class="btn" id="scheduledBtn">Scheduled Classes</button> --}}
+
+    <div class="classNavbar">
+        <div class="box1" id="box-1">
+            <button class="btn" id="assignmentBtn">ASSIGNMENTS</button>
+        </div>
+        <div class="box1" id="box-2">
+             <button class="btn" id="testBtn">TESTS</button>
+        </div>
+        <div class="box1" id="box-3">
+             <button class="btn" id="scheduledBtn">SCHEDULED CLASSES</button>
+        </div>
+    </div>
 </div>
 
 <div class="tablePanel" id="assignmentView">
-    All Assignments
-
-    {{#allAssignments}}
+    {{!-- {{#allAssignments}}
         <div style="border: 1px solid green;" id="card-{{@key}}">
             <h4>{{this.title}}</h4>
             <p>{{this.totalMarks}}</p>
             <p>{{formatDate this.deadline 'MMMM Do YYYY, h:mm:ss a'}}</p>
             <p id="{{@key}}" class="{{this._id}}" onclick="openAssignment({{@key}})">View Assignment</p>
         </div>
-    {{/allAssignments}}
+    {{/allAssignments}} --}}
+
+    <div style="border: 1px solid green;" id="card-{{@key}}">
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Deadline</th>
+                    <th>Total Marks</th>
+                    <th>Marks Obtained</th>
+                    <th>Details</th>
+                </tr>
+                {{#allAssignments}}
+                    <tr>
+                        <td><h4>{{this.title}}</h4></td>
+                        <td><p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p></td>
+                        <td><p>{{this.totalMarks}}</p></td>
+                        <td><h6>Nothing</h6></td>
+                        <td><button id="{{@key}}" class="{{this._id}} ViewAssignment btn" onclick="openAssignment({{@key}})">View Assignment</button></td>
+                    </tr>
+                 {{/allAssignments}}
+            </table>
+        </div>
 
 </div>
 <div class="tablePanel" id="testView">
     Test Appears here
 </div>
+
 <div class="tablePanel" id="scheduledClassView">
-    Scheduled Classes Appears here
+    
+        <div style="border: 1px solid green;" id="card-{{@key}}">
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Duration</th>
+                    <th>Password</th>
+                    <th>Link</th>
+                </tr>
+                {{#allScheduledClasses}}
+                    <tr>
+                        <td><h4>{{this.title}}</h4></td>
+                        <td><p>{{this.description}}</p></td>
+                        <td><p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p></td>
+                        <td><p>{{this.duration}}</p></td>
+                        <td><h6>{{this.classPassword}}</h6></td>
+                        <td><button class="btn meetLink"><a href="{{this.classLink}}">Join Class</a></button></td>
+                    </tr>
+                 {{/allScheduledClasses}}
+            </table>
+        </div>
+    {{!-- All classes  --}}
 </div>
 
 
@@ -76,6 +160,25 @@
     assignmentView.style.display = 'block';
     testView.style.display = 'none';
     scheduledClassView.style.display = 'none';
+
+    document.getElementById("box-1").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da582, #f7bb97, white)";
+
+    document.getElementById("box-1").addEventListener("click", function() {
+        document.getElementById("box-1").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da582, #f7bb97, white)";
+        document.getElementById("box-2").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+        document.getElementById("box-3").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+    });
+    document.getElementById("box-2").addEventListener("click", function() {
+        document.getElementById("box-2").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da582, #f7bb97, white)";
+        document.getElementById("box-1").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+        document.getElementById("box-3").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+    });
+
+    document.getElementById("box-3").addEventListener("click", function() {
+        document.getElementById("box-3").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da582, #f7bb97, white)";
+        document.getElementById("box-2").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+        document.getElementById("box-1").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+    });
 
     assignmentBtn.addEventListener('click', ()=> {
         console.log(`button clicked is${assignmentBtn}`)
