@@ -53,48 +53,50 @@ mongoose.connect(URL, {
     console.log('Error: ', err.message);
 })
 
+
 // for file UPLOAD
-// const con = mongoose.createConnection(URL, {
-//     useUnifiedTopology: true,
-//     useNewUrlParser: true 
-// });
+const con = mongoose.createConnection(URL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true 
+});
 
-// con.then(() => { 
-//     console.log(`Files upload DB is connected as well!!!`) 
-// })
+con.then( () => { 
+    console.log(`Files upload DB is connected as well!!!`) 
+})
 
-// //INIT gfs
-// let gfs;
-// con.once('open', () => {
-//     //initialize stream
-//     gfs = Grid(con.db, mongoose.mongo);
-//     gfs.collection('uploads');
-// });
+//INIT gfs
+let gfs;
+con.once('open', () => {
+    //initialize stream
+    gfs = Grid(con.db, mongoose.mongo);
+    gfs.collection('uploads');
+});
 
 
-// //create storage engine
-// const storage = new GridFsStorage({
-//     url: URL,
-//     file: (req, file) => {
-//       return new Promise((resolve, reject) => {
-//         crypto.randomBytes(16, (err, buf) => {
-//           if (err) {
-//             return reject(err);
-//           }
-//           const filename = buf.toString('hex') + path.extname(file.originalname);
-//           const fileInfo = {
-//             filename: filename,
-//             bucketName: 'uploads'
-//           };
-//           resolve(fileInfo);
-//         });
-//       });
-// }   
-// });   
-// const upload = multer({ storage });
+//create storage engine
+const storage = new GridFsStorage({
+    url: URL,
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          const filename = buf.toString('hex') + path.extname(file.originalname);
+          const fileInfo = {
+            filename: filename,
+            bucketName: 'uploads'
+          };
+          resolve(fileInfo);
+        });
+      });
+}   
+});   
 
-// app.use(cors());
-// app.use(methodOverride('_method'));
+const upload = multer({ storage });
+
+app.use(cors());
+app.use(methodOverride('_method'));
 
 // using cokie parser
 app.use(cookieParser());
@@ -105,49 +107,50 @@ app.use('/auth', require('./routes/auth'));
 app.use('/studentDashboard', require('./routes/studentDashboard'));
 app.use('/api', require('./routes/api'));
 
-// for files upload
-// app.post('/upload', upload.single('file'), (req, res) => {
-//     try {
-//         console.log('post request received');
-//         res.send({ file: req.file });
-//     } catch (error) {
-//         res.send(error);
-//     }
-// })
 
-// app.get('/files', (req, res) => {
-//     gfs.files.find().toArray((err, files) => {
-//       // Check if files
-//       if (!files || files.length === 0) {
-//         return res.status(404).json({
-//           err: 'No files exist'
-//         });
-//       }
+app.post('/upload', upload.single('file'), (req, res) => {
+    try {
+        console.log('post request received');
+        res.send({ file: req.file });
+    } catch (error) {
+        res.send(error);
+    }
+})
 
-//     // Files exist
-//     return res.json(files);
-// });
-// });
+app.get('/files', (req, res) => {
+    gfs.files.find().toArray((err, files) => {
+      // Check if files
+      if (!files || files.length === 0) {
+        return res.status(404).json({
+          err: 'No files exist'
+        });
+      }
+
+    // Files exist
+    return res.json(files);
+});
+});
 
 
-// app.get('/open/:filename', (req, res) => {
-//     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-//         // Check if file
-//         if (!file || file.length === 0) {
-//             return res.status(404).json({
-//                 err: 'No file exists'
-//         });
-//         }
+app.get('/open/:filename', (req, res) => {
+    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+        // Check if file
+        if (!file || file.length === 0) {
+            return res.status(404).json({
+                err: 'No file exists'
+        });
+        }
 
-//         // // Check if image
-//         if (file.contentType === 'image/jpeg' || file.contentType === 'image/png' || file.contentType === 'application/pdf' || file.contentType === 'application/octet-stream' || file.contentType === 'text/plain') {
-//         // Read output to browser
-//             const readstream = gfs.createReadStream(file);
-//             readstream.pipe(res);
-//             } else {
-//             res.status(404).json({
-//                 err: 'Not an image'
-//         });
-//         }
-//     });
-// });
+        // // Check if image
+        if (file.contentType === 'image/jpeg' || file.contentType === 'image/png' || file.contentType === 'application/pdf' || file.contentType === 'application/octet-stream' || file.contentType === 'text/plain') {
+        // Read output to browser
+            const readstream = gfs.createReadStream(file);
+            readstream.pipe(res);
+            } else {
+            res.status(404).json({
+                err: 'Not an image'
+        });
+        }
+    });
+});
+

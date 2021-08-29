@@ -99,17 +99,60 @@ studentDashboardRoute.post('/join', async (req, res) => {
 studentDashboardRoute.get('/:classCode/assignment/:assignmentId', async (req, res) => {
     try {
         // passing all the class details in form of array to the template
+        let hasUploaded = false;
+        let studentEmail = req.cookies['email'];
+        let uploadedAssignmentfile = '';
         const classCode = req.params.classCode;
         const assignmentId = req.params.assignmentId;
         let assignmentData = await Assignments.findById(mongoose.Types.ObjectId(assignmentId)).lean();
-        console.log(assignmentData);
+        let allSubmissions = assignmentData.allSubmissions;
 
-        res.render('assignmentDashboard', { layout: 'singleClass',  classCode: classCode , assignmentData });
+        for (let i = 0; i < allSubmissions.length; i++) {
+            if (allSubmissions[i].studentInfo.studentEmail == studentEmail) {
+                hasUploaded = true;
+                uploadedAssignmentfile = allSubmissions[i].submission[1];
+            }
+        }
+
+        res.render('assignmentDashboard', { layout: 'singleClass',  classCode: classCode, assignmentData, hasUploaded, uploadedAssignmentfile });
     } catch (error) {
         res.send(error);
     }
 });
 
+
+// /:classCode/assignment/:assignmentId
+// @POST
+studentDashboardRoute.post('/:classCode/assignment/:assignmentId/:uploadedFileName', async (req, res) => {
+    try {
+        // passing all the class details in form of array to the template
+        const uploadedFileName = req.params.uploadedFileName;
+        const classCode = req.params.classCode;
+        const assignmentId = req.params.assignmentId;
+        const studentEmail = req.cookies['email'];
+        const studentData = await Users.findOne({ email: studentEmail });
+        const assignmentData = await Assignments.findById(mongoose.Types.ObjectId(assignmentId)).lean();
+        const allSubmissions = assignmentData.allSubmissions;
+        let submission = {
+            studentInfo: {
+                studentName: studentData.firstName,
+                studentEmail: studentEmail
+            },
+            submission: {
+                originalFileName: req.body.file,
+                uploadedFileName: uploadedFileName
+            }
+        }
+        allSubmissions.push(submission);
+        assignmentData.allSubmissions = allSubmissions;
+        // update assignmentData
+        await Assignments.findByIdAndUpdate(mongoose.Types.ObjectId(assignmentId), assignmentData, { new: true }); 
+        res.redirect('/studentDashboard/' + classCode + '/assignment/' + assignmentId);
+    } catch (error) {
+        console.error(error);
+        res.send(error);
+    }
+});
 
 
 module.exports = studentDashboardRoute;

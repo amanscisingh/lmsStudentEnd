@@ -36,37 +36,36 @@ const assignmentSchema = new mongoose.Schema({
     },
     allSubmissions: [
         {
-            studentInfo:[
-                {
-                    studentEmail: {  // unique email of student
-                        type: String,
-                        required: true
-                    },
-                    studentName: { // name of student
-                        type: String,
-                        required: true
-                    },
-                }
-            ],
-            submission: [
-                {
-                    type: String,   // file name - taking input from user side
-                    required: false
-                },
-                {
-                    type: String,   // unique file name to download the file
+            studentInfo:{
+                studentEmail: {  // unique email of student
+                    type: String,
                     required: true
                 },
-                {
-                    type: Number,   // marks assigned to that student
-                    required: false
+                studentName: { // name of student
+                    type: String,
+                    required: true
                 },
-                {
-                    type: String,   // file name - takking input from user side
-                    required: false
+            },
+            submission: {
+                originalFileName: {
+                    type: String,
+                    required: true
                 },
-            ]
-        }
+                uploadedFileName: {
+                    type: String,
+                    required: true
+                },
+                marksAssigned: {
+                    type: Number,
+                    required: true,
+                    default: -1
+                },
+                submissionTime: {
+                    type: Date,
+                    default: Date.now
+                }                
+            },
+         }
     ],
     createdAt: {
         type: Date,
