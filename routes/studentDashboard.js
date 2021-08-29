@@ -2,6 +2,8 @@ const express = require('express');
 const studentDashboardRoute = express.Router();
 const Classes = require('../models/Classes.js');
 const Users = require('../models/Users.js');
+const Assignments = require('../models/Assignments.js');
+const mongoose =   require('mongoose');
 
 
 // /studentDashboard
@@ -40,9 +42,21 @@ studentDashboardRoute.get('/:classCode', async (req, res) => {
         // passing all the class details in form of array to the template
         const classCode = req.params.classCode;
         let classData = await Classes.findOne({ classCode: classCode }).lean();
-        console.log(classData);
+        let allAssignmentsandTests = await Assignments.find({ classCode: classCode }).lean();
+        let allAssignments = []
+        let allTests = []
+        for (let i = 0; i < allAssignmentsandTests.length; i++) {
+            if (allAssignmentsandTests[i].type == 'assignment') {
+                allAssignments.push(allAssignmentsandTests[i]);
+            } else {
+                allTests.push(allAssignmentsandTests[i]);   
+            }
+        };
 
-        res.render('classDashboard', { layout: 'singleClass', classData: classData , classCode: classCode });
+        console.log('assign: ',allAssignments);
+        console.log('test: ',allTests);
+
+        res.render('classDashboard', { layout: 'singleClass', classData: classData , classCode: classCode, allAssignments, allTests });
     } catch (error) {
         res.send(error);
     }
@@ -76,4 +90,23 @@ studentDashboardRoute.post('/join', async (req, res) => {
         res.send(error);
     }
 })
+
+
+// /studentDashboard/:classCode/assignment/:assignmentId
+studentDashboardRoute.get('/:classCode/assignment/:assignmentId', async (req, res) => {
+    try {
+        // passing all the class details in form of array to the template
+        const classCode = req.params.classCode;
+        const assignmentId = req.params.assignmentId;
+        let assignmentData = await Assignments.findById(mongoose.Types.ObjectId(assignmentId)).lean();
+        console.log(assignmentData);
+
+        res.render('assignmentDashboard', { layout: 'singleClass',  classCode: classCode , assignmentData });
+    } catch (error) {
+        res.send(error);
+    }
+});
+
+
+
 module.exports = studentDashboardRoute;

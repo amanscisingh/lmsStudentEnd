@@ -3,3 +3,106 @@
 <h4>{{classData.className}}</h4>
 <h4>{{classData.classDescription}}</h4>
 <h4>{{classData.classTeacher}}</h4>
+
+<style>
+    .navBar{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .btn{
+        margin: 5px 40px 5px 40px;
+        padding: 5px;
+        border: 0;
+    }
+
+    .verticalSeperator{
+        background-color: black;
+        color: black;
+        border: 0;
+        height: 38px;
+        box-shadow: 2px 2px 10px 2px black;
+    }
+
+    .tablePanel{
+        width: 99%;
+        height: 55%;
+        border: 1px solid red;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<hr style="margin: 15px;">
+
+<div class="navbar">
+    <button class="btn" id="assignmentBtn">Assignment</button>
+    <hr class="verticalSeperator">
+    <button class="btn" id="testBtn">Test</button>
+    <hr class="verticalSeperator">
+    <button class="btn" id="scheduledBtn">Scheduled Classes</button>
+</div>
+
+<div class="tablePanel" id="assignmentView">
+    All Assignments
+
+    {{#allAssignments}}
+        <div style="border: 1px solid green;" id="card-{{@key}}">
+            <h4>{{this.title}}</h4>
+            <p>{{this.totalMarks}}</p>
+            <p>{{formatDate this.deadline 'MMMM Do YYYY, h:mm:ss a'}}</p>
+            <p id="{{@key}}" class="{{this._id}}" onclick="openAssignment({{@key}})">View Assignment</p>
+        </div>
+    {{/allAssignments}}
+
+</div>
+<div class="tablePanel" id="testView">
+    Test Appears here
+</div>
+<div class="tablePanel" id="scheduledClassView">
+    Scheduled Classes Appears here
+</div>
+
+
+<script>
+    const assignmentBtn = document.getElementById('assignmentBtn');
+    const testBtn = document.getElementById('testBtn');
+    const scheduledBtn = document.getElementById('scheduledBtn');
+    const assignmentView = document.getElementById('assignmentView');
+    const testView = document.getElementById('testView');
+    const scheduledClassView = document.getElementById('scheduledClassView');
+    assignmentView.style.display = 'block';
+    testView.style.display = 'none';
+    scheduledClassView.style.display = 'none';
+
+    assignmentBtn.addEventListener('click', ()=> {
+        console.log(`button clicked is${assignmentBtn}`)
+        testView.style.display = 'none';
+        scheduledClassView.style.display = 'none';
+        assignmentView.style.display = 'block';
+    })
+
+    testBtn.addEventListener('click', ()=> {
+        console.log(`button clicked is${testBtn}`)
+        assignmentView.style.display = 'none';
+        scheduledClassView.style.display = 'none';
+        testView.style.display = 'block';
+    })
+
+    scheduledBtn.addEventListener('click', ()=> {
+        console.log(`button clicked is${scheduledBtn}`)
+        assignmentView.style.display = 'none';
+        testView.style.display = 'none';
+        scheduledClassView.style.display = 'block';
+    })
+
+    function openAssignment(id){
+        console.log(`id is ${document.getElementById(id).classList[0]}`)
+        location.assign(`${location.origin}${location.pathname}/assignment/${document.getElementById(id).classList[0]}`)
+    }
+        
+
+
+</script>

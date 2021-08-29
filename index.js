@@ -4,6 +4,7 @@ var bodyParser = require('body-parser')
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const moment = require('moment');
 
 const app = express();
 
@@ -22,7 +23,11 @@ function parseToString(input) {
 };
 
 
-app.engine('.hbs', exphbs({helpers:{ parseToString }, defaultLayout: 'main', extname: '.hbs'}));
+// handlebars helpers
+function formatDate(date, format) {
+  return moment(date).format(format)
+};
+app.engine('.hbs', exphbs({helpers:{ parseToString, formatDate }, defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
 // setting up public folder
