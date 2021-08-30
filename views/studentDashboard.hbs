@@ -27,18 +27,20 @@
 
     }
     .upperPart{
-        {{!-- background-color: '#' + Math.floor(Math.random()*16777215).toString(16); --}}
-        background-image: linear-gradient(rgb(205, 218, 132), white);
-        color: rgb(44, 24, 24);
+        background: url(https://gstatic.com/classroom/themes/img_backtoschool.jpg) no-repeat center center/cover;
         border-radius: 5px;
         text-align: center;
         padding: 15px;
+        height: fit-content;
     }
+
     .lowerPart{
         padding: 30px;
         display: flex;
         overflow-y: scroll;
         margin-bottom: 20px ;
+        display: flex;
+        flex-direction: row;
     }
     .nameAndPhoto{
         display: flex;
@@ -46,7 +48,9 @@
     }
     .description{
         {{!-- overflow-y: scroll; --}}
-        height: 110px;
+        height: 100%;
+        width:100%;
+        border: 2px solid black;
     }
     ::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
@@ -71,6 +75,13 @@
     margin: 5%;
 }
 
+#titleClass{
+  color: white;
+  font-family: "Roboto";
+  text-decoration: none;
+}
+
+
 </style>
 
 
@@ -80,22 +91,20 @@
     <div class="card" id="card-{{@key}}">
         <div class="upperPart">
             <div class="delete_class_code">
+            <div class="data" id="titleClass"><h2>{{this.className}}</h2></div>
             <div class="data" id="class-{{@key}}">{{this.classCode}}</div><div class="delete" onclick="editCard({{@key}})">🛠</div>
             </div>
-            <div class="data">{{this.className}}</div>
             <div class="data">{{this.classTeacher}}</div>
             <div>
                 <hr>
-                
             </div>
             
         </div>
         
         <div class="lowerPart">
-            <div class="data description">{{this.classDescription}}</div>
-            <div class="data">{{this.classTeacherId}}</div>
-            
-            
+            <div class="data description"><p>{{this.classDescription}}</p></div>
+            {{!-- <div class="data">{{this.classTeacherId}}</div> --}}
+            <iframe class="teacherImage" src="{{this.classTeacherImage}}" width="50%" frameborder="0"></iframe> 
         </div>
 
         <br><br>

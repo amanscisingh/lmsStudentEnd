@@ -12,16 +12,15 @@
 
     .DetailsBox{
         border: 2px solid green;
-        width: 50%;
+        width: 78%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
     }
 
     .UploadBox{
         border: 2px solid blue;
-        width: 50%;
+        width: 20%;
     }
 
     .detail{
@@ -79,6 +78,10 @@
     #description{
         border-radius: 8px;
     }
+    #showFile{
+        height: 1000px;
+        width: 810px;
+    }
 
 </style>
 
@@ -95,16 +98,15 @@
         <div class="detail" id="totalMarks">{{assignmentData.totalMarks}}</div>
         <div class="detail" id="deadline">{{formatDate assignmentData.deadline 'MMMM Do YYYY, h:mm:ss a'}}</div>
         <div class="detail" id="showFile">
-            <iframe style="width: 100%;  height: 100%" src="/open/{{assignmentData.fileUploadName}}" frameborder="0"></iframe>
+            <iframe style="width: 100%;  height: 100%" src="/open/{{assignmentData.fileUploadName}}#view=fitH"  frameborder="0"></iframe>
         </div>
     </div>
 
     <div class="UploadBox">
-        <h2>{{hasUploaded}}</h2>
-        <h1>Upload here</h1>
+        <h1 id="uploadText">Upload here</h1>
 
         <form id="createAssignmentForm" action="#" method="POST" class="margin">
-            <div>
+            <div id="uploadForm">
                 <input type="file" name="file" id="file" class="custom-file-input margin">
                 <br>
                 <label for="file" id="fileLabel">You Have Not Choosen Any File Yet!!!</label>
@@ -119,6 +121,9 @@
     const createAssignment = document.getElementById('createAssignment');
     createAssignment.disabled = true;
     const createAssignmentForm = document.getElementById('createAssignmentForm');
+    const uploadForm=document.getElementById('uploadForm')
+    const UploadBox=document.getElementsByClassName('UploadBox')
+    const uploadText=document.getElementById('uploadText')
     const file = document.getElementById('file');
     let fileName;
 
@@ -144,4 +149,11 @@
             
     }); 
     });
+
+    if({{hasUploaded}}){
+        uploadForm.style.display='none'
+        uploadText.innerHTML="Already Submitted"
+        createAssignment.style.display='none'
+
+    }
 </script>
