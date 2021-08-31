@@ -1,82 +1,96 @@
 <style>
+    
+    body{
+        background-color: rgb(231 237 239);
+    }
+    .tableTeacherDashboard{
+        display: flex;
+        justify-content: center;
+    }
+    th, td{
+        border: 1px solid black;
+    }
+    table{
+        margin-top: 5%;
+        width: 60%;
+        height: auto;
+    }
+    tr>th{
+        font-size: large;
+        background-color: #d2f6ff;
+        padding: 20px;
+    }
+    tr>td{
+        background-color: #f0fbff;
+        padding: 20px;
+    }
     .card{
         border: 0.5px solid rgb(194, 189, 189);
-        height: 300px;
+        height: 380px;
         border-radius: 5px;
         margin: 10px;
-        width: 300px;
+        width: 377px;
         margin-top: 30px;
-
         font-family: sans-serif;    
     }
     .card:hover{
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        transition: 0.3s;      
+        transition: 0.3s;    
+        cursor: pointer;  
     }
     .data{
         padding: 2px;
 
     }
     img {
-        border-radius: 50px;
-        margin-top: 10px;
-        position: relative;
-        top: 0%;
-        left: 31%;
-        z-index: 1;
-
+        margin-top: 0px;
     }
     .upperPart{
-        background: url(https://gstatic.com/classroom/themes/img_backtoschool.jpg) no-repeat center center/cover;
         border-radius: 5px;
         text-align: center;
         padding: 15px;
-        height: fit-content;
+        height: 80px;
+        background-color: #d2f6ff;
     }
 
     .lowerPart{
-        padding: 30px;
-        display: flex;
+        padding: 10px;
         overflow-y: scroll;
         margin-bottom: 20px ;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        height: 65.5%;
+        background-color: white;
     }
-    .nameAndPhoto{
-        display: flex;
-        padding: 20px;
-    }
+
     .description{
-        {{!-- overflow-y: scroll; --}}
         height: 100%;
         width:100%;
-        border: 2px solid black;
+        color: rgb(122, 117, 117);
     }
     ::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
   }
-.delete_class_code{
-    display: flex;
-    border: 2px solid red;
-    margin-left: 10%;
-}
-.delete{
-    margin-left: 15%;
-    border: 2px solid red;
-}
-.delete:hover{
-    cursor: pointer;
-}
+
 .box {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     grid-gap: .5rem;
     margin: 5%;
 }
-
+.teacherImage{
+    width: 27.4%;
+    height: 96%;
+}
+.teacherImageContainer{
+    width: 98%;
+    height: 100;
+}
 #titleClass{
-  color: white;
+  color: black;
   font-family: "Roboto";
   text-decoration: none;
 }
@@ -88,12 +102,11 @@
 <div class="box">
 {{#each allClasses}}
 
-    <div class="card" id="card-{{@key}}">
+    <div class="card" id="card-{{@key}}" onclick="editCard({{@key}})">
         <div class="upperPart">
-            <div class="delete_class_code">
             <div class="data" id="titleClass"><h2>{{this.className}}</h2></div>
-            <div class="data" id="class-{{@key}}">{{this.classCode}}</div><div class="delete" onclick="editCard({{@key}})">🛠</div>
-            </div>
+            <div class="data" id="class-{{@key}}">{{this.classCode}}</div>
+           
             <div class="data">{{this.classTeacher}}</div>
             <div>
                 <hr>
@@ -102,16 +115,46 @@
         </div>
         
         <div class="lowerPart">
+            <div class="teacherImageContainer">
+                <iframe class="teacherImage" src="{{this.classTeacherImage}}" frameborder="0"></iframe> 
+            </div>
             <div class="data description"><p>{{this.classDescription}}</p></div>
             {{!-- <div class="data">{{this.classTeacherId}}</div> --}}
-            <iframe class="teacherImage" src="{{this.classTeacherImage}}" width="50%" frameborder="0"></iframe> 
         </div>
 
         <br><br>
     </div>
 {{/each}}
 </div>
+<hr>
+    <div class="tableTeacherDashboard">
+        <table border="2" class="timeTable">
+        <thead>
+            <tr>
+                <th>Class Name</th>
+                <th>Class Teacher Name</th>
+                <th>Description</th>
+                <th>Passcode </th>
+            </tr>
+        </thead>
+        {{#each allClasses}}
 
+        <tbody>
+            <tr>
+                <td>{{this.className}}</td>
+                <td>{{this.classTeacher}}</td>
+                <td>{{this.classDescription}}</td>
+                <td>
+                    {{#if this.classCode}}
+                        {{this.classCode}}
+                    {{/if}}
+                        No Password
+                </td>
+            </tr>
+        </tbody>
+        {{/each}}
+        </table>
+    </div>
 <script>
     function editCard(key){
         console.log(key);
