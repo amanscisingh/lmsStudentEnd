@@ -319,15 +319,14 @@ input {
 
 /* css forteacherDashboard */
 
-.card {
+/* .card {
     border: 0.5px solid rgb(194, 189, 189);
     height: 266px;
-    border-radius: 10px;
     margin: 30px;
     width: 370px;
     margin-top: 30px;
     font-family: sans-serif;
-}
+} */
 
 .card:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -360,18 +359,6 @@ input {
     /* Remove scrollbar space */
     background: transparent;
     /* Optional: just make scrollbar invisible */
-}
-
-.delete_class_code {
-    display: flex;
-}
-
-.delete {
-    margin-left: 30%;
-}
-
-.delete:hover {
-    cursor: pointer;
 }
 
 .box {
