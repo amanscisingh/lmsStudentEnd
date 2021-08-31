@@ -131,7 +131,7 @@
     </div>
 </div>
 
-<hr>
+
 
 <div class="box" id="allClasses">
 {{#each allClasses}}
@@ -197,12 +197,12 @@
         document
     })
 
-    document.getElementById("allClasses").style.display = "flex";
+    document.getElementById("allScheduledMeetings").style.display = "none";
     document.getElementById("box-1").style.borderBottom = "2px solid #1e8dff";
     document.getElementById("box-1").style.backgroundColor = "#f0fbff";
 
     document.getElementById("box-1").addEventListener("click", function () {
-        document.getElementById("allClasses").style.display = "flex";
+        document.getElementById("allClasses").style.display = "grid";
         document.getElementById("allScheduledMeetings").style.display = "none";
         document.getElementById('allClasses').scrollIntoView();
         document.getElementById("box-1").style.borderBottom = "2px solid #1e8dff";
