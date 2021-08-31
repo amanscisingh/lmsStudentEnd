@@ -1,211 +1,273 @@
-<div class="mainContainer">
-    <div class="subjectContainer">
-        <h1>{{classData.className}}</h2>
-        <h1>{{classData.classTeacher}}</h1>
-        <h2>Description-{{classData.classDescription}}</h2>
+<style>
+    * {
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    body {
+        background-color: rgb(231 237 239);
+    }
+
+    #allSchedule {
+        justify-content: center;
+    }
+    #allTests {
+        justify-content: center;
+        display: none;
+    }
+    #allAssignments {
+        justify-content: center;
+        display: none;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+    }
+
+    table {
+        margin-top: 5%;
+        width: 60%;
+        height: auto;
+    }
+
+    tr>th {
+        font-size: large;
+        background-color: #d2f6ff;
+        padding: 20px;
+    }
+
+    tr>td {
+        background-color: #f0fbff;
+        padding: 20px;
+    }
+
+
+    .supremeClassDashboard {
+        height: 25%;
+        margin: 10px auto;
+    }
+
+    .middleClassDashboard {
+        height: 10%;
+        margin: 10px auto;
+    }
+
+    .bottomClassDashboard {
+        height: 40%;
+        margin: 10px auto;
+    }
+
+    .mainContainer {
+        margin: 1.5% 10%;
+        padding: 3px;
+        background-color: #AEDAE4;
+        background-image: url('/images/backgroundImage2.svg');
+        background-size: cover;
+        height: 80%;
+        text-align: center;
+        box-shadow: 0 0 15px 1px #c7c7c7;
+        border-radius: 2px;
+        text-align: start;
+        overflow-y: scroll;
+    }
+
+    .mainContainer-element {
+        margin: 0% 2% 0 26%;
+    }
+
+    ::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+    }
+    a{
+        margin-left: 27%;
+        background-color: white;
+        color: black;
+        padding: 3px;
+        text-decoration: none;
+    }
+</style>
+
+
+
+<div class="supremeClassDashboard">
+    <div class="mainContainer">
+        <h1 style="font-size: xxx-large;" class="mainContainer-element">{{classData.className}}</h1>
+        <h2 style="font-size: medium; padding: 5px;" class="mainContainer-element">{{classData.classTeacher}}</h2>
+        <h2 style="font-size: medium; padding: 5px; margin-bottom: 5px;" class="mainContainer-element">
+            Description-{{classData.classDescription}}</h2>
+
         <a href="https://meet.google.com/{{classCode}}" class="defaultLink">Join Default Meet</h2></a>
     </div>
 </div>
 
-<style>
-    .defaultLink{
-        text-decoration: none;
-        color: black;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    }
 
-    ..defaultLink:hover{
-        cursor: pointer;
-        color: aqua;
-    }
-
-    .navBar{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .btn{
-        margin: 5px 40px 5px 40px;
-        padding: 5px;
-        border: 0;
-    }
-
-    .verticalSeperator{
-        background-color: black;
-        color: black;
-        border: 0;
-        height: 38px;
-        box-shadow: 2px 2px 10px 2px black;
-    }
-
-    .tablePanel{
-        width: 99%;
-        height: 55%;
-        border: 1px solid red;
-        margin-top: 20px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-</style>
-
-<hr style="margin: 15px;">
-
-<div class="navbar">
-    {{!-- <button class="btn" id="assignmentBtn">Assignment</button>
-    <hr class="verticalSeperator">
-    <button class="btn" id="testBtn">Test</button>
-    <hr class="verticalSeperator">
-    <button class="btn" id="scheduledBtn">Scheduled Classes</button> --}}
-
+<div class="middleClassDashboard">
     <div class="classNavbar">
         <div class="box1" id="box-1">
-            <button class="btn" id="assignmentBtn">ASSIGNMENTS</button>
-        </div>
-        <div class="box1" id="box-2">
-             <button class="btn" id="testBtn">TESTS</button>
+            <h3 style="font-size: x-large" onclick="openAssignments()">ASSIGNMENTS</h3>
         </div>
         <div class="box1" id="box-3">
-             <button class="btn" id="scheduledBtn">SCHEDULED CLASSES</button>
+            <h3 style="font-size: x-large" onclick="openTests()">TESTS</h3>
         </div>
+        <div style="font-size: x-large" class="box1" id="box-2">
+            <h3 onclick="openClassShedule()">CLASSES</h3>
+        </div>
+
     </div>
 </div>
 
-<div class="tablePanel" id="assignmentView">
-    {{!-- {{#allAssignments}}
-        <div style="border: 1px solid green;" id="card-{{@key}}">
-            <h4>{{this.title}}</h4>
-            <p>{{this.totalMarks}}</p>
-            <p>{{formatDate this.deadline 'MMMM Do YYYY, h:mm:ss a'}}</p>
-            <p id="{{@key}}" class="{{this._id}}" onclick="openAssignment({{@key}})">View Assignment</p>
-        </div>
-    {{/allAssignments}} --}}
 
-    <div style="border: 1px solid green;" id="card-{{@key}}">
-            <table>
+<div class="bottomClassDashboard">
+    <div id="allAssignments">
+        <table class="timeTable">
+            <tr>
+                <th>Title</th>
+                <th>Deadline</th>
+                <th>Total Marks</th>
+                <th>Marks Obtained</th>
+                <th>Details</th>
+            </tr>
+            {{#each allAssignments}}
                 <tr>
-                    <th>Title</th>
-                    <th>Deadline</th>
-                    <th>Total Marks</th>
-                    <th>Marks Obtained</th>
-                    <th>Details</th>
+                    <td>
+                        <h4>{{this.title}}</h4>
+                    </td>
+                    <td>
+                        <p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
+                    </td>
+                    <td>
+                        <p>{{this.totalMarks}}</p>
+                    </td>
+                    <td>
+                        <h6>Nothing</h6>
+                    </td>
+                    <td><button id="{{@key}}" class="{{this._id}} ViewAssignment" onclick="openAssignment({{@key}})">View
+                            Assignment</button></td>
                 </tr>
-                {{#allAssignments}}
-                    <tr>
-                        <td><h4>{{this.title}}</h4></td>
-                        <td><p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p></td>
-                        <td><p>{{this.totalMarks}}</p></td>
-                        <td><h6>Nothing</h6></td>
-                        <td><button id="{{@key}}" class="{{this._id}} ViewAssignment btn" onclick="openAssignment({{@key}})">View Assignment</button></td>
-                    </tr>
-                 {{/allAssignments}}
-            </table>
-        </div>
+            {{/each}}
+        </table>
+    </div>
 
-</div>
-<div class="tablePanel" id="testView">
-    Test Appears here
-</div>
+    <div id="allTests">
+        <table class="timeTable">
+            <tr>
+                <th>Title</th>
+                <th>Deadline</th>
+                <th>Total Marks</th>
+                <th>Marks Obtained</th>
+                <th>Details</th>
+            </tr>
+            {{#each allTests}}
+                <tr>
+                    <td>
+                        <h4>{{this.title}}</h4>
+                    </td>
+                    <td>
+                        <p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
+                    </td>
+                    <td>
+                        <p>{{this.totalMarks}}</p>
+                    </td>
+                    <td>
+                        <h6>Nothing</h6>
+                    </td>
+                    <td><button id="{{@key}}" class="{{this._id}} ViewAssignment btn" onclick="openAssignment({{@key}})">View
+                            Assignment</button></td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
 
-<div class="tablePanel" id="scheduledClassView">
     
-        <div style="border: 1px solid green;" id="card-{{@key}}">
-            <table>
+
+
+
+    <div id="allSchedule">
+        <table class="timeTable">
+            <thead>
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Date</th>
+                    <th>start time</th>
                     <th>Duration</th>
-                    <th>Password</th>
-                    <th>Link</th>
+                    <th>Class Link</th>
                 </tr>
-                {{#allScheduledClasses}}
-                    <tr>
-                        <td><h4>{{this.title}}</h4></td>
-                        <td><p>{{this.description}}</p></td>
-                        <td><p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p></td>
-                        <td><p>{{this.duration}}</p></td>
-                        <td><h6>{{this.classPassword}}</h6></td>
-                        <td><button class="btn meetLink"><a href="{{this.classLink}}">Join Class</a></button></td>
-                    </tr>
-                 {{/allScheduledClasses}}
-            </table>
-        </div>
-    {{!-- All classes  --}}
+            </thead>
+            {{#each allScheduledClasses}}
+
+            <tbody>
+                <tr>
+                    <td>{{this.title}}</td>
+                    <td>{{this.description}}</td>
+                    <td>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</td>
+                    <td>{{this.duration}}</td>
+                    <td>{{this.classLink}}</td>
+                </tr>
+            </tbody>
+            {{/each}}
+        </table>
+    </div>
 </div>
 
 
+
 <script>
-    const assignmentBtn = document.getElementById('assignmentBtn');
-    const testBtn = document.getElementById('testBtn');
-    const scheduledBtn = document.getElementById('scheduledBtn');
-    const assignmentView = document.getElementById('assignmentView');
-    const testView = document.getElementById('testView');
-    const scheduledClassView = document.getElementById('scheduledClassView');
-    assignmentView.style.display = 'block';
-    testView.style.display = 'none';
-    scheduledClassView.style.display = 'none';
+    document.getElementById("allAssignments").style.display = "flex";
+    document.getElementById("box-1").style.borderBottom = "2px solid #1e8dff";
+    document.getElementById("box-1").style.backgroundColor = "#f0fbff";
 
-    document.getElementById("box-1").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da582, #f7bb97, white)";
-
-    document.getElementById("box-1").addEventListener("click", function() {
-        document.getElementById("box-1").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da582, #f7bb97, white)";
-        document.getElementById("box-2").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
-        document.getElementById("box-3").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+    document.getElementById("box-1").addEventListener("click", function () {
+        document.getElementById("allAssignments").style.display = "flex";
+        document.getElementById("allSchedule").style.display = "none";
+        document.getElementById("allTests").style.display = "none";
+        document.getElementById('allAssignments').scrollIntoView();
+        document.getElementById("box-1").style.borderBottom = "2px solid #1e8dff";
+        document.getElementById("box-2").style.borderBottom = "none";
+        document.getElementById("box-3").style.borderBottom = "none";
+        document.getElementById("box-1").style.backgroundColor = "#f0fbff";
+        document.getElementById("box-2").style.backgroundColor = "#E7EDEF";
+        document.getElementById("box-3").style.backgroundColor = "#E7EDEF";
     });
-    document.getElementById("box-2").addEventListener("click", function() {
-        document.getElementById("box-2").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da582, #f7bb97, white)";
-        document.getElementById("box-1").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
-        document.getElementById("box-3").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+    document.getElementById("box-2").addEventListener("click", function () {
+        document.getElementById("allSchedule").style.display = "flex";
+        document.getElementById("allAssignments").style.display = "none";
+        document.getElementById("allTests").style.display = "none";
+        document.getElementById('allSchedule').scrollIntoView();
+        document.getElementById("box-2").style.borderBottom = "2px solid #1e8dff";
+        document.getElementById("box-1").style.borderBottom = "none";
+        document.getElementById("box-3").style.borderBottom = "none";
+        document.getElementById("box-2").style.backgroundColor = "#f0fbff";
+        document.getElementById("box-1").style.backgroundColor = "#E7EDEF";
+        document.getElementById("box-3").style.backgroundColor = "#E7EDEF";
+
     });
 
-    document.getElementById("box-3").addEventListener("click", function() {
-        document.getElementById("box-3").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da582, #f7bb97, white)";
-        document.getElementById("box-2").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
-        document.getElementById("box-1").style.backgroundImage= "linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white)";
+
+    document.getElementById("box-3").addEventListener("click", function () {
+        document.getElementById("allTests").style.display = "flex";
+        document.getElementById("allAssignments").style.display = "none";
+        document.getElementById("allSchedule").style.display = "none";
+        document.getElementById('allSchedule').scrollIntoView();
+        document.getElementById("box-3").style.borderBottom = "2px solid #1e8dff";
+        document.getElementById("box-1").style.borderBottom = "none";
+        document.getElementById("box-2").style.borderBottom = "none";
+        document.getElementById("box-3").style.backgroundColor = "#f0fbff";
+        document.getElementById("box-1").style.backgroundColor = "#E7EDEF";
+        document.getElementById("box-2").style.backgroundColor = "#E7EDEF";
     });
 
-    assignmentBtn.addEventListener('click', ()=> {
-        console.log(`button clicked is${assignmentBtn}`)
-        testView.style.display = 'none';
-        scheduledClassView.style.display = 'none';
-        assignmentView.style.display = 'block';
-    })
+    function editCard(key) {
+        console.log(key);
+        let id1 = `class-${key}`;
+        console.log('kkkk' + id1);
 
-    testBtn.addEventListener('click', ()=> {
-        console.log(`button clicked is${testBtn}`)
-        assignmentView.style.display = 'none';
-        scheduledClassView.style.display = 'none';
-        testView.style.display = 'block';
-    })
-
-    scheduledBtn.addEventListener('click', ()=> {
-        console.log(`button clicked is${scheduledBtn}`)
-        assignmentView.style.display = 'none';
-        testView.style.display = 'none';
-        scheduledClassView.style.display = 'block';
-    })
+        location.assign('/teacherDashboard/' + code + 'assignment' + id);
+    }
 
     function openAssignment(id){
         console.log(`id is ${document.getElementById(id).classList[0]}`)
         location.assign(`${location.origin}${location.pathname}/assignment/${document.getElementById(id).classList[0]}`)
     }
-        
-
 
 </script>
