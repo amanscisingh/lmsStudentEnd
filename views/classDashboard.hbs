@@ -55,6 +55,9 @@
     .bottomClassDashboard {
         height: 40%;
         margin: 10px auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
     }
 
     .mainContainer {
@@ -86,6 +89,48 @@
         padding: 3px;
         text-decoration: none;
     }
+    .card {
+    border: 0.5px solid rgb(194, 189, 189);
+    margin: 30px;
+    width: 370px;
+    margin-top: 30px;
+    font-family: sans-serif;
+    background-color: white;
+    justify-content: center;
+    height: 20rem;
+}
+    .card:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    cursor: pointer;
+}
+.upperPart {
+    color: rgb(44, 24, 24);
+    background-color: #ddf6ff;
+    text-align: center;
+    padding: 15px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+.upperPart>div{
+    padding: 6px;
+}
+
+.lowerPart {
+    padding: 23px;
+    display: flex;
+    margin-bottom: 20px;
+    background-color: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just make scrollbar invisible */
+}
+
 </style>
 
 
@@ -118,69 +163,49 @@
 </div>
 
 
-<div class="bottomClassDashboard">
+<div class="bottomClassDashboard"> 
     <div id="allAssignments">
-        <table class="timeTable">
-            <tr>
-                <th>Title</th>
-                <th>Deadline</th>
-                <th>Total Marks</th>
-                <th>Marks Obtained</th>
-                <th>Details</th>
-            </tr>
-            {{#each allAssignments}}
-                <tr>
-                    <td>
-                        <h4>{{this.title}}</h4>
-                    </td>
-                    <td>
-                        <p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
-                    </td>
-                    <td>
-                        <p>{{this.totalMarks}}</p>
-                    </td>
-                    <td>
-                        <h6>Nothing</h6>
-                    </td>
-                    <td><button id="{{@key}}" class="{{this._id}} ViewAssignment" onclick="openAssignment({{@key}})">View
-                            Assignment</button></td>
-                </tr>
-            {{/each}}
-        </table>
+    
+        {{#each allAssignments}}
+
+        <div class="assignment card {{this._id}}" id="assignment-{{@key}}" onclick="openAssignment({{@key}})">
+            <div class="upperPart">
+                <div style="font-size: xx-large;">{{this.title}}</div>
+            <div>
+                <hr style="margin: 4%;">
+            </div>
+            </div>
+            <div class="lowerPart">
+                <div class="data" style="color: rgb(143, 138, 138);">{{this.description}}</div>     
+            </div>
+                    
+        </div>
+
+        {{/each}}
+
     </div>
+
 
     <div id="allTests">
-        <table class="timeTable">
-            <tr>
-                <th>Title</th>
-                <th>Deadline</th>
-                <th>Total Marks</th>
-                <th>Marks Obtained</th>
-                <th>Details</th>
-            </tr>
-            {{#each allTests}}
-                <tr>
-                    <td>
-                        <h4>{{this.title}}</h4>
-                    </td>
-                    <td>
-                        <p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
-                    </td>
-                    <td>
-                        <p>{{this.totalMarks}}</p>
-                    </td>
-                    <td>
-                        <h6>Nothing</h6>
-                    </td>
-                    <td><button id="{{@key}}" class="{{this._id}} ViewAssignment btn" onclick="openAssignment({{@key}})">View
-                            Assignment</button></td>
-                </tr>
-            {{/each}}
-        </table>
-    </div>
-
     
+        {{#each allTests}}
 
+         <div class="assignment card {{this._id}}" id="assignment-{{@key}}" onclick="openAssignment({{@key}})">
+            <div class="upperPart">
+                <div style="font-size: xx-large;">{{this.title}}</div>
+            <div>
+                <hr style="margin: 4%;">
+            </div>
+            </div>
+            <div class="lowerPart">
+                <div class="data" style="color: rgb(143, 138, 138);">{{this.description}}</div>     
+            </div>
+                    
+        </div>
+
+        {{/each}}
+
+    </div>
 
 
     <div id="allSchedule">
