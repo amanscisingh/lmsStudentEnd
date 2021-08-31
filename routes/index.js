@@ -19,7 +19,7 @@ indexRoute.get('/profile', async (req, res) => {
         let user = await Users.findOne({ email: email }).lean();
         console.log(email);
         // res.send({user: user})
-        res.render('profile', { layout: 'studentloggedIn', userSchema :user })
+        res.render('profile', { layout: 'studentLoggedIn', userSchema :user })
     } catch (error) {
         res.send(error);
     }
