@@ -108,11 +108,32 @@
   text-decoration: none;
 }
 
+#allScheduledMeetings{
+    display: none;
+}
+
+.middleClassDashboard {
+        height: 10%;
+        margin: 10px auto;
+    }
 
 </style>
 
+<div class="middleClassDashboard">
+    <div class="classNavbar">
+        <div class="box1" id="box-1" style="font-size: x-large ">
+            <h3>ALL CLASSES</h3>
+        </div>
+        <div style="font-size: x-large" class="box1" id="box-2">
+            <h3>SCHEDULED MEETINGS</h3>
+        </div>
 
-<div class="box">
+    </div>
+</div>
+
+<hr>
+
+<div class="box" id="allClasses">
 {{#each allClasses}}
 
     <div class="card" id="card-{{@key}}" onclick="editCard({{@key}})">
@@ -136,8 +157,9 @@
     </div>
 {{/each}}
 </div>
-<hr>
-    <div class="tableTeacherDashboard">
+
+
+    <div class="tableTeacherDashboard" id="allScheduledMeetings">
         <table border="2" class="timeTable">
         <thead>
             <tr>
@@ -155,16 +177,14 @@
                 <td>{{this.classTeacher}}</td>
                 <td>{{this.classDescription}}</td>
                 <td>
-                    {{#if this.classCode}}
-                        {{this.classCode}}
-                    {{/if}}
-                        No Password
+                    {{formatPassword this.classCode}}
                 </td>
             </tr>
         </tbody>
         {{/each}}
         </table>
     </div>
+
 <script>
     function editCard(key){
         console.log(key);
@@ -176,4 +196,29 @@
     document.getElementById('profilePhotu').addEventListener('click', ()=>{
         document
     })
+
+    document.getElementById("allClasses").style.display = "flex";
+    document.getElementById("box-1").style.borderBottom = "2px solid #1e8dff";
+    document.getElementById("box-1").style.backgroundColor = "#f0fbff";
+
+    document.getElementById("box-1").addEventListener("click", function () {
+        document.getElementById("allClasses").style.display = "flex";
+        document.getElementById("allScheduledMeetings").style.display = "none";
+        document.getElementById('allClasses').scrollIntoView();
+        document.getElementById("box-1").style.borderBottom = "2px solid #1e8dff";
+        document.getElementById("box-2").style.borderBottom = "none";
+        document.getElementById("box-1").style.backgroundColor = "#f0fbff";
+        document.getElementById("box-2").style.backgroundColor = "#E7EDEF";
+    });
+    document.getElementById("box-2").addEventListener("click", function () {
+        document.getElementById("allScheduledMeetings").style.display = "flex";
+        document.getElementById("allClasses").style.display = "none";
+        document.getElementById('allScheduledMeetings').scrollIntoView();
+        document.getElementById("box-2").style.borderBottom = "2px solid #1e8dff";
+        document.getElementById("box-1").style.borderBottom = "none";
+        document.getElementById("box-2").style.backgroundColor = "#f0fbff";
+        document.getElementById("box-1").style.backgroundColor = "#E7EDEF";
+        
+    });
+
 </script>
