@@ -32,11 +32,19 @@ function parseToString(input) {
 };
 
 
+// format marks assigned
+function formatAssignedMarks(marks) {
+  if (marks === -1) {
+    return 'Not assigned'
+  } else {
+    return marks  }
+}
+
 // handlebars helpers
 function formatDate(date, format) {
   return moment(date).format(format)
 };
-app.engine('.hbs', exphbs({helpers:{ parseToString, formatDate }, defaultLayout: 'main', extname: '.hbs'}));
+app.engine('.hbs', exphbs({helpers:{ parseToString, formatDate, formatAssignedMarks }, defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
 // setting up public folder

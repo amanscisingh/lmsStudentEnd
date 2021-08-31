@@ -41,25 +41,97 @@ studentDashboardRoute.get('/join', (req, res) => {
 studentDashboardRoute.get('/:classCode', async (req, res) => {
     try {
         // passing all the class details in form of array to the template
-        const classCode = req.params.classCode;
+        let studentEmail = req.cookies['email'];
+        let classCode = req.params.classCode;
         let classData = await Classes.findOne({ classCode: classCode }).lean();
         let allAssignmentsandTests = await Assignments.find({ classCode: classCode }).lean();
         let allAssignments = []
         let allTests = []
         let allScheduledClasses = await ScheduledClasses.find({ classCode: classCode }).lean();
-        console.log("allScheduledClasses=",allScheduledClasses)
         for (let i = 0; i < allAssignmentsandTests.length; i++) {
-            if (allAssignmentsandTests[i].type == 'assignment') {
-                allAssignments.push(allAssignmentsandTests[i]);
+            let ind = -1;
+
+            for (let j = 0; j < allAssignmentsandTests[i].allSubmissions.length; j++) {
+                let allSub = allAssignmentsandTests[i].allSubmissions[j];
+                if (allSub.studentInfo.studentEmail === studentEmail) {
+                    ind = j;
+                    break;
+                }
+            }
+            
+            
+            let temp
+            if (ind !== -1) {
+                temp = {
+                    marks: allAssignmentsandTests[i].allSubmissions[ind].submission.marksAssigned,
+                    isSubmitted: allAssignmentsandTests[i].allSubmissions[ind].submission.submissionTime
+                };
             } else {
-                allTests.push(allAssignmentsandTests[i]);   
+                temp = {
+                    marks: "NA",
+                    isSubmitted: "NA"
+                };
+            }
+
+            if (allAssignmentsandTests[i].type == 'assignment') {
+                allAssignments.push({...allAssignmentsandTests[i], ...temp});
+            } else {
+                allTests.push({...allAssignmentsandTests[i], ...temp});   
             }
         };
 
-        console.log('assign: ',allAssignments);
-        console.log('test: ',allTests);
-
         res.render('classDashboard', { layout: 'singleClass', classData: classData , classCode: classCode, allAssignments, allTests, allScheduledClasses });
+    } catch (error) {
+        res.send(error);
+    }
+});
+
+
+studentDashboardRoute.get('/:classCode/test', async (req, res) => {
+    try {
+        // passing all the class details in form of array to the template
+        let studentEmail = req.cookies['email'];
+        let classCode = req.params.classCode;
+        let classData = await Classes.findOne({ classCode: classCode }).lean();
+        let allAssignmentsandTests = await Assignments.find({ classCode: classCode }).lean();
+        let allAssignments = []
+        let allTests = []
+        let marksAssignedAssignment = []
+        let marksAssignedTest = []
+        let allScheduledClasses = await ScheduledClasses.find({ classCode: classCode }).lean();
+        for (let i = 0; i < allAssignmentsandTests.length; i++) {
+            let ind = -1;
+
+            for (let j = 0; j < allAssignmentsandTests[i].allSubmissions.length; j++) {
+                let allSub = allAssignmentsandTests[i].allSubmissions[j];
+                if (allSub.studentInfo.studentEmail === studentEmail) {
+                    ind = j;
+                    break;
+                }
+            }
+            
+            
+            let temp
+            if (ind !== -1) {
+                temp = {
+                    marks: allAssignmentsandTests[i].allSubmissions[ind].submission.marksAssigned,
+                    isSubmitted: allAssignmentsandTests[i].allSubmissions[ind].submission.submissionTime
+                };
+            } else {
+                temp = {
+                    marks: "NA",
+                    isSubmitted: "NA"
+                };
+            }
+
+            if (allAssignmentsandTests[i].type == 'assignment') {
+                allAssignments.push({...allAssignmentsandTests[i], ...temp});
+            } else {
+                allTests.push({...allAssignmentsandTests[i], ...temp});   
+            }
+        };
+
+        res.send(allAssignments);
     } catch (error) {
         res.send(error);
     }
