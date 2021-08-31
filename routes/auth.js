@@ -11,6 +11,7 @@ authRoute.post('/login', (req, res)=> {
         let token = req.body.token;
         let userid;
         let email;
+        let image;
 
         async function verify() {
             const ticket = await client.verifyIdToken({
@@ -20,6 +21,7 @@ authRoute.post('/login', (req, res)=> {
             const payload = ticket.getPayload();
             userid = payload['sub'];
             email = payload['email'];
+            image = payload['picture'];
             let userData = await User.findOne({googleId: userid});
             console.log(payload);
             if (userData == null) {
@@ -47,6 +49,7 @@ authRoute.post('/login', (req, res)=> {
             res.cookie('session-cookie', token);
             res.cookie('userid', userid);
             res.cookie('email', email);
+            res.cookie('image', image);
             res.send("success");
         })
         .catch(console.error);

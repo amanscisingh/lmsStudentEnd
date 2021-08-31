@@ -165,23 +165,35 @@
 
 <div class="bottomClassDashboard"> 
     <div id="allAssignments">
-    
-        {{#each allAssignments}}
 
-        <div class="assignment card {{this._id}}" id="assignment-{{@key}}" onclick="openAssignment({{@key}})">
-            <div class="upperPart">
-                <div style="font-size: xx-large;">{{this.title}}</div>
-            <div>
-                <hr style="margin: 4%;">
-            </div>
-            </div>
-            <div class="lowerPart">
-                <div class="data" style="color: rgb(143, 138, 138);">{{this.description}}</div>     
-            </div>
-                    
-        </div>
-
-        {{/each}}
+        <table class="timeTable">
+            <tr>
+                <th>Title</th>
+                <th>Deadline</th>
+                <th>Total Marks</th>
+                <th>Marks Obtained</th>
+                <th>Details</th>
+            </tr>
+            {{#each allAssignments}}
+                <tr>
+                    <td>
+                        <h4>{{this.title}}</h4>
+                    </td>
+                    <td>
+                        <p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
+                    </td>
+                    <td>
+                        <p>{{this.totalMarks}}</p>
+                    </td>
+                    <td>
+                        <h6>{{this.marks}} {{this.isSubmitted}}</h6>
+                    </td>
+                    <td><button id="{{@key}}" class="{{this._id}} ViewAssignment" onclick="openAssignment({{@key}})">View
+                            Assignment</button></td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
 
     </div>
 
