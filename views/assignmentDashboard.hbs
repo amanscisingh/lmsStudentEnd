@@ -2,7 +2,6 @@
     .MainBox{
         height: 89vh;
         padding-top: 2%;
-        border: 2px solid black;
         display: flex;
         flex-direction: row;
         background-color: rgb(231 237 239);
@@ -16,17 +15,16 @@
     }
 
     .UploadBox{
-        border: 2px solid blue;
+        border: 1px solid #1967d2;
         width: 28%;
         height: 300px;
         box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
-        border-radius: 0.5rem;
         overflow: hidden;
-        margin: 10px;
+        margin: 1% 6% 0 0;
     }
 
     .detail{
-        border: 1px solid grey;
+        border: 1px solid #1967d2;
         margin: 5px;
         padding: 10px;
         width: 80%;
@@ -87,8 +85,6 @@
     }
     #showFile{
         height: 1000px;
-        width: 780px;
-        border-radius: 10px;
     }
 
     .marksAndDeadline{
@@ -145,8 +141,8 @@
         <div class="detail" id="title" style="border: none; margin-left:0px;">{{assignmentData.title}}</div>
         <div class="detail" id="description" style="margin-top: 0px; padding-top: 0px; border: none;">{{assignmentData.description}}</div>
         <div class="marksAndDeadline detail"  style="margin-top: 0px; border: none;">
-            <div id="totalMarks"><span class="marksObtained" style="font-weight: bold;">Nothing</span>/{{assignmentData.totalMarks}}</div>
-            <div id="deadline">Due {{formatDate assignmentData.deadline 'MMMM Do YYYY, h:mm:ss a'}}</div>
+            <div id="totalMarks"><span class="marksObtained" style="font-weight: bold;">{{marks}}</span>/{{assignmentData.totalMarks}}</div>
+            <div id="deadline" class="{{isSubmitted}}">Due {{formatDate assignmentData.deadline 'MMMM Do YYYY, h:mm:ss a'}}</div>
         </div>
         <div class="detail" id="showFile">
             <iframe style="width: 100%;  height: 100%" src="/open/{{assignmentData.fileUploadName}}#view=fitH"  frameborder="0"></iframe>
@@ -190,7 +186,7 @@
             body: formData
         }).then(res => res.json()).then(data => {
             fileName = data["file"].filename;
-            let action = location.pathname + '/' + fileName;
+            let action = location.pathname  + fileName;
             createAssignmentForm.setAttribute('action', action);
             console.log('unique file name: ' , fileName);
             fileLabel.innerText = data["file"].originalname;
@@ -208,5 +204,18 @@
         uploadText.style.marginTop="130px"
         createAssignment.style.display='none'
 
+    }
+
+    let submissionDisplay = document.getElementById('deadline');
+    
+    if (submissionDisplay.classList.contains('NA')) {
+        
+    } else {
+        let temp = submissionDisplay.classList[0] + " " + submissionDisplay.classList[1] + " " + submissionDisplay.classList[2] + " " + submissionDisplay.classList[3] + " " + submissionDisplay.classList[4] ;
+        if (temp.includes('undefined')) {
+            
+        } else {
+            submissionDisplay.innerHTML = 'Submitted At: ' +   temp;
+        }
     }
 </script>

@@ -34,6 +34,7 @@ function parseToString(input) {
 
 // format marks assigned
 function formatAssignedMarks(marks) {
+  let temp;
   if (marks === -1) {
     return 'Not assigned'
   } else {
@@ -42,7 +43,11 @@ function formatAssignedMarks(marks) {
 
 // handlebars helpers
 function formatDate(date, format) {
-  return moment(date).format(format)
+    if (date === 'NA') {
+      return "NA"
+    } else {
+      return moment(date).format(format)
+    }
 };
 
 function formatPassword(password) {

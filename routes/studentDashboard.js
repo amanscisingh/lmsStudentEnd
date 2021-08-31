@@ -13,14 +13,14 @@ studentDashboardRoute.get('/', async (req, res) => {
         // passing all the class details in form of array to the template
         const student = await Users.findOne({ email: req.cookies['email'] }).lean();
         let allClassDetails = [];
-        let classCodes = student.classCodes
+        let classCodes = student.classCodes;
         for (let i = 0; i < classCodes.length; i++) {
             let x = await Classes.findOne({ classCode: classCodes[i] }).lean();
             allClassDetails.push(x);  
         }
-        console.log(allClassDetails);
+        let allScheduledClasses = await ScheduledClasses.find({ classCode: { $in : classCodes } }).lean();
 
-        res.render('studentDashboard', { layout: 'studentLoggedIn', allClasses: allClassDetails  });
+        res.render('studentDashboard', { layout: 'studentLoggedIn', allClasses: allClassDetails ,allScheduledClasses: allScheduledClasses });
     } catch (error) {
         res.send(error);
     }
@@ -171,6 +171,9 @@ studentDashboardRoute.post('/join', async (req, res) => {
 studentDashboardRoute.get('/:classCode/assignment/:assignmentId', async (req, res) => {
     try {
         // passing all the class details in form of array to the template
+        console.log(req.query);
+        let marks = req.query.marks;
+        let isSubmitted = req.query.isSubmitted;
         let hasUploaded = false;
         let studentEmail = req.cookies['email'];
         let uploadedAssignmentfile = '';
@@ -186,7 +189,15 @@ studentDashboardRoute.get('/:classCode/assignment/:assignmentId', async (req, re
             }
         }
 
-        res.render('assignmentDashboard', { layout: 'singleClass',  classCode: classCode, assignmentData, hasUploaded, uploadedAssignmentfile });
+        res.render('assignmentDashboard', {
+             layout: 'singleClass',  
+             classCode: classCode, 
+             assignmentData, 
+             hasUploaded, 
+             uploadedAssignmentfile,
+             marks,
+             isSubmitted 
+        });
     } catch (error) {
         res.send(error);
     }
@@ -219,7 +230,7 @@ studentDashboardRoute.post('/:classCode/assignment/:assignmentId/:uploadedFileNa
         assignmentData.allSubmissions = allSubmissions;
         // update assignmentData
         await Assignments.findByIdAndUpdate(mongoose.Types.ObjectId(assignmentId), assignmentData, { new: true }); 
-        res.redirect('/studentDashboard/' + classCode + '/assignment/' + assignmentId);
+        res.redirect('/studentDashboard/' + classCode);
     } catch (error) {
         console.error(error);
         res.send(error);

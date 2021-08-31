@@ -53,7 +53,6 @@
     }
 
     .bottomClassDashboard {
-        height: 40%;
         margin: 10px auto;
         display: flex;
         flex-direction: row;
@@ -131,6 +130,11 @@
     /* Optional: just make scrollbar invisible */
 }
 
+.color-NA{
+    background-color: #ff5d5f;
+
+}
+
 </style>
 
 
@@ -141,8 +145,6 @@
         <h2 style="font-size: medium; padding: 5px;" class="mainContainer-element">{{classData.classTeacher}}</h2>
         <h2 style="font-size: medium; padding: 5px; margin-bottom: 5px;" class="mainContainer-element">
             Description-{{classData.classDescription}}</h2>
-
-        <a href="https://meet.google.com/{{classCode}}" class="defaultLink">Join Default Meet</h2></a>
     </div>
 </div>
 
@@ -185,13 +187,54 @@
                         <p style="overflow-y: scroll; width: 250px; height: 100px;">{{this.description}}</p>
                     </td>
                     <td>
-                        <p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
+                        <p style="text-align: center;">{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
                     </td>
                     <td>
                         <p style="text-align: center;">{{this.totalMarks}}</p>
                     </td>
+                    <td class="color-{{this.isSubmitted}}">
+                        <p style="text-align: center;">{{formatDate this.isSubmitted 'MMMM Do YYYY, h:mm:ss a'}}</p>
+                    </td>
                     <td>
-                        <p>{{this.isSubmitted}}</p>
+                        <h4 style="text-align: center;">{{this.marks}}</h4>
+                    </td>
+                    <td><button id="{{@key}}" class="{{this._id}} ViewAssignment {{this.marks}} {{this.isSubmitted}}" onclick="openAssignment({{@key}})">View
+                            Assignment</button></td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+
+
+
+    <div id="allTests">
+    
+        <table class="timeTable">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Total Marks</th>
+                <th>Submitted at</th>
+                <th>Marks Obtained</th>
+                <th>Details</th>
+            </tr>
+            {{#each allTests}}
+                <tr>
+                    <td>
+                        <h4 style="overflow-y: scroll; width: 250px; height: 100px;">{{this.title}}</h4>
+                    </td>
+                    <td>
+                        <p style="overflow-y: scroll; width: 250px; height: 100px;">{{this.description}}</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center;">{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center;">{{this.totalMarks}}</p>
+                    </td>
+                    <td class="{{this.isSubmitted}}">
+                        <p style="text-align: center;">{{formatDate this.isSubmitted 'MMMM Do YYYY, h:mm:ss a'}}</p>
                     </td>
                     <td>
                         <h4 style="text-align: center;">{{this.marks}}</h4>
@@ -201,29 +244,6 @@
                 </tr>
             {{/each}}
         </table>
-    </div>
-
-    </div>
-
-
-    <div id="allTests">
-    
-        {{#each allTests}}
-
-         <div class="assignment card {{this._id}}" id="assignment-{{@key}}" onclick="openAssignment({{@key}})">
-            <div class="upperPart">
-                <div style="font-size: xx-large;">{{this.title}}</div>
-            <div>
-                <hr style="margin: 4%;">
-            </div>
-            </div>
-            <div class="lowerPart">
-                <div class="data" style="color: rgb(143, 138, 138);">{{this.description}}</div>     
-            </div>
-                    
-        </div>
-
-        {{/each}}
 
     </div>
 
@@ -244,7 +264,7 @@
             <tbody>
                 <tr>
                     <td>{{this.title}}</td>
-                    <td>{{this.description}}</td>
+                    <td><p style="overflow-y: scroll; width: 250px; height: 100px;">{{this.description}}</p></td>
                     <td>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</td>
                     <td>{{this.duration}} hour(s)</td>
                     <td>{{this.classLink}}</td>
@@ -266,7 +286,6 @@
         document.getElementById("allAssignments").style.display = "flex";
         document.getElementById("allSchedule").style.display = "none";
         document.getElementById("allTests").style.display = "none";
-        document.getElementById('allAssignments').scrollIntoView();
         document.getElementById("box-1").style.borderBottom = "2px solid #1e8dff";
         document.getElementById("box-2").style.borderBottom = "none";
         document.getElementById("box-3").style.borderBottom = "none";
@@ -274,11 +293,11 @@
         document.getElementById("box-2").style.backgroundColor = "#E7EDEF";
         document.getElementById("box-3").style.backgroundColor = "#E7EDEF";
     });
+
     document.getElementById("box-2").addEventListener("click", function () {
         document.getElementById("allSchedule").style.display = "flex";
         document.getElementById("allAssignments").style.display = "none";
         document.getElementById("allTests").style.display = "none";
-        document.getElementById('allSchedule').scrollIntoView();
         document.getElementById("box-2").style.borderBottom = "2px solid #1e8dff";
         document.getElementById("box-1").style.borderBottom = "none";
         document.getElementById("box-3").style.borderBottom = "none";
@@ -293,7 +312,6 @@
         document.getElementById("allTests").style.display = "flex";
         document.getElementById("allAssignments").style.display = "none";
         document.getElementById("allSchedule").style.display = "none";
-        document.getElementById('allSchedule').scrollIntoView();
         document.getElementById("box-3").style.borderBottom = "2px solid #1e8dff";
         document.getElementById("box-1").style.borderBottom = "none";
         document.getElementById("box-2").style.borderBottom = "none";
@@ -311,8 +329,11 @@
     }
 
     function openAssignment(id){
+        let marks = document.getElementById(id).classList[2]
+        let isSubmitted = document.getElementById(id).classList[3] + ' ' + document.getElementById(id).classList[4] + ' ' + document.getElementById(id).classList[5] + ' ' + document.getElementById(id).classList[6] + ' ' + document.getElementById(id).classList[7];
         console.log(`id is ${document.getElementById(id).classList[0]}`)
-        location.assign(`${location.origin}${location.pathname}/assignment/${document.getElementById(id).classList[0]}`)
+        location.assign(`${location.origin}${location.pathname}/assignment/${document.getElementById(id).classList[0]}/?marks=${marks}&isSubmitted=${isSubmitted}`)
     }
+
 
 </script>
