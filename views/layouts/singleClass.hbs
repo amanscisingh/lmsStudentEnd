@@ -1,63 +1,125 @@
-{{!-- <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-            
-        }
-        .header{
-            display : flex;
-            justify-content: flex-end;
-            padding: 27px;
-            box-shadow: 2px 2px 10px 2px gray;
-        }
-        .add_class_icon{
-            text-decoration: none;
-            position: absolute;
-            top: 1.9rem;
-            right: 4.6rem;
-        }
-        .heading_logo_text{
-            position: absolute;
-            left: 5rem;
-        }
-        .heading_logo_img{
-            height: 50px;
-            width: 50px;
-            position: absolute;
-            left: 1rem; top: 0.4rem;
-        }
-    </style>
-</head> --}}
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="665729303262-pvgu50j2sjrbafq2jjibo4t08qmha2pr.apps.googleusercontent.com">
     <link rel="stylesheet" type="text/css" href="/css/index.css">
-    <title>Class</title>
+    <title>Dashboard</title>
     <style>
         *{
-            margin: 0;
-            padding: 0;
-            
+            font-family: 'Open Sans', sans-serif;
+        }
+        body{
+            background-color: rgb(224 229 231);
+        }
+        .header{
+            display : flex;
+            justify-content: flex-end;
+            padding: 10px;
+            box-shadow: 0 0 10px 1px gray;
+            background-color: white;
+            z-index: 1;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            width: 100%;
+
+        }
+
+        .container-span{
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            justify-content: center;
+
+        }
+
+        .container-element{
+            margin: 0px auto 0px auto;
+        }
+        
+        .plusIcon{
+            border-radius: 100%;
+        }
+        .plusIcon:hover{
+            background-color: rgba(0, 0, 0, 0.384);
+            box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.285);
         }
         
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="http://old.iitbhu.ac.in/icmc2018/apm/images/IITBHU-Logo.jpg" alt="iit_bhu_logo" class="heading_logo_img"/>
-        <h3 class="heading_logo_text">IIT BHU</h3>
-        <a href="{{classCode}}/join" class="add_class_icon">✔ Join Class</a>
-        <h3 class="login_icon">👍</h3>
-    </div>
+    
+     <div class="header">
+
+        <div class="container">            
+            <span class="container-span" style="width:15%;">
+                <img src="http://old.iitbhu.ac.in/icmc2018/apm/images/IITBHU-Logo.jpg" alt="iit_bhu_logo" style="height: 60px; width: 60px;"/>
+                <h3 style="padding-left: 5%; padding-top:10%;">IIT-BHU</h3>
+            </span>
+
+            <span style="width: 70%;">
+
+            </span>
+            
+            <span class="container-span" style="width:15%;">
+                <div class="addClassIcon2 container-element"><img style="height: 60px; width: 60px;" id='image' src="#" class="plusIcon">  </div>
+                <a href="#" onclick="signOut()" class="container-element"><img style="height: 100%; width: 100%;" src="/images/logoutDesign.svg">  </a>
+            </span>
+            
+        </div>
+    </div> 
+
+    <script src="https://apis.google.com/js/platform.js" async defer> </script>
+
+    <script>
+
+        // %3A - :
+        // %2F - /
+        // %3D - =
+
+        let allCookie = document.cookie.split(';');
+        let imageLink;
+        for(let i=0;i<allCookie.length;i++){
+            if(allCookie[i].includes('image=')){
+                imageLink = allCookie[i].split('=')[1];
+            }
+        }
+
+        imageLink = imageLink.replaceAll("%3A", ":");
+        imageLink = imageLink.replaceAll("%2F", "/");
+        imageLink = imageLink.replaceAll("%3D", "=");
+
+        const image = document.getElementById('image');
+        image.src = imageLink;
+        console.log(imageLink);
+
+        function signOut(user) {
+            console.log('btn clicked');
+            window.gapi.load('auth2', () => {
+            window.gapi.auth2
+                .init({
+                client_id:
+                    '665729303262-pvgu50j2sjrbafq2jjibo4t08qmha2pr.apps.googleusercontent.com'
+                })
+                .then(() => {
+                window.gapi.auth2
+                    .getAuthInstance()
+                    .signOut()
+                    .then(function() {
+                    console.log('User signed out.');
+                    location.assign('/');
+                    });
+            });
+        })
+        }
+                
+
+        
+    </script>
     {{{ body }}}
 </body>
 </html>
