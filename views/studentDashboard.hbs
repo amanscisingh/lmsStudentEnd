@@ -159,34 +159,6 @@
 {{/each}}
 </div>
 
-
-    <div class="tableTeacherDashboard" id="allScheduledMeetings">
-        <table border="2" class="timeTable">
-        <thead>
-            <tr>
-                <th>Class Name</th>
-                <th>Class Teacher Name</th>
-                <th>Description</th>
-                <th>Passcode </th>
-            </tr>
-        </thead>
-        {{#each allClasses}}
-
-        <tbody>
-            <tr>
-                <td>{{this.className}}</td>
-                <td>{{this.classTeacher}}</td>
-                <td>{{this.classDescription}}</td>
-                <td>
-                    {{formatPassword this.classCode}}
-                </td>
-            </tr>
-        </tbody>
-        {{/each}}
-        </table>
-    </div>
-
-
     <div class="tableTeacherDashboard" id="allScheduledMeetings">
         <table border="2" class="timeTable">
         <thead>
