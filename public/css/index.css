@@ -1,3 +1,8 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+
 /* css for assignment dashboard */
 
 .paricularAssignment {
@@ -28,14 +33,6 @@
     cursor: pointer;
 }
 
-.mainContainer {
-    display: flex;
-    justify-content: center;
-    height: 35%;
-    width: 100%;
-    margin-top: 30px;
-}
-
 .subjectContainer {
     height: 100%;
     width: 60%;
@@ -50,17 +47,15 @@
 .classNavbar {
     display: flex;
     justify-content: center;
-    height: 30%;
-    margin-top: 2.5%;
+    height: 60%;
+    margin-top: 1.5%;
 }
 
 .box1 {
     width: 24.49%;
-    height: 80%;
-    background-image: linear-gradient(rgb(2 119 189), #f77da5, #f7bb97, white);
     text-align: center;
-    padding: 20px;
-    color: white;
+    padding: 30px;
+    color: black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
