@@ -64,7 +64,7 @@ studentDashboardRoute.get('/:classCode', async (req, res) => {
             if (ind !== -1) {
                 temp = {
                     marks: allAssignmentsandTests[i].allSubmissions[ind].submission.marksAssigned,
-                    isSubmitted: allAssignmentsandTests[i].allSubmissions[ind].submission.submissionTime
+                    isSubmitted:allAssignmentsandTests[i].allSubmissions[ind].submission.submissionTime
                 };
             } else {
                 temp = {

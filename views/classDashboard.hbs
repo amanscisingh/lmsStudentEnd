@@ -26,19 +26,19 @@
 
     table {
         margin-top: 5%;
-        width: 60%;
+        width: 98%;
         height: auto;
     }
 
     tr>th {
         font-size: large;
         background-color: #d2f6ff;
-        padding: 20px;
+        padding: 10px;
     }
 
     tr>td {
         background-color: #f0fbff;
-        padding: 20px;
+        padding: 10px;
     }
 
 
@@ -169,24 +169,32 @@
         <table class="timeTable">
             <tr>
                 <th>Title</th>
+                <th>Description</th>
                 <th>Deadline</th>
                 <th>Total Marks</th>
+                <th>Submitted at</th>
                 <th>Marks Obtained</th>
                 <th>Details</th>
             </tr>
             {{#each allAssignments}}
                 <tr>
                     <td>
-                        <h4>{{this.title}}</h4>
+                        <h4 style="overflow-y: scroll; width: 250px; height: 100px;">{{this.title}}</h4>
+                    </td>
+                    <td>
+                        <p style="overflow-y: scroll; width: 250px; height: 100px;">{{this.description}}</p>
                     </td>
                     <td>
                         <p>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</p>
                     </td>
                     <td>
-                        <p>{{this.totalMarks}}</p>
+                        <p style="text-align: center;">{{this.totalMarks}}</p>
                     </td>
                     <td>
-                        <h6>{{this.marks}} {{this.isSubmitted}}</h6>
+                        <p>{{this.isSubmitted}}</p>
+                    </td>
+                    <td>
+                        <h4 style="text-align: center;">{{this.marks}}</h4>
                     </td>
                     <td><button id="{{@key}}" class="{{this._id}} ViewAssignment" onclick="openAssignment({{@key}})">View
                             Assignment</button></td>
@@ -226,7 +234,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>start time</th>
+                    <th>Start time</th>
                     <th>Duration</th>
                     <th>Class Link</th>
                 </tr>
@@ -238,7 +246,7 @@
                     <td>{{this.title}}</td>
                     <td>{{this.description}}</td>
                     <td>{{formatDate this.startTime 'MMMM Do YYYY, h:mm:ss a'}}</td>
-                    <td>{{this.duration}}</td>
+                    <td>{{this.duration}} hour(s)</td>
                     <td>{{this.classLink}}</td>
                 </tr>
             </tbody>
