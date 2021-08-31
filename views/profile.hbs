@@ -1,0 +1,189 @@
+<style>
+
+    .btn {
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #4cbdff;
+        border: none;
+        width: 150px;
+        height: 40px;
+        font-size: large;
+    }
+
+    .btn:hover {
+        cursor: pointer;
+        box-shadow: 0px 0px 4px 2px #00b5ef;
+    }
+
+    .className {
+        padding: 7px;
+    }
+
+    .joinClassContainer {
+        display: flex;
+    }
+
+    .formContainer {
+        width: 25%;
+        padding: 20px;
+        margin: 5% 5% 5% 5%;
+        background-color: #94d8f8cb;
+        box-shadow: 0px 0px 6px 3px rgb(94, 93, 93);
+        color: black;
+        height: 75%;
+    }
+
+    .bubble {
+        position: absolute;
+        bottom: 0%;
+        width: 50px;
+        height: 50px;
+        margin-left: 2%;
+        animation: bubbleAnimation 7s linear infinite;
+    }
+
+    @keyframes bubbleAnimation {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        70% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(-80vh);
+            opacity: 0;
+        }
+    }
+
+    .b1 {
+        animation-delay: 0.2s;
+    }
+
+    .b2 {
+        animation-delay: 3s;
+    }
+
+    .b3 {
+        animation-delay: 0.7s;
+    }
+
+    .b4 {
+        animation-delay: 5s;
+    }
+
+    .b5 {
+        animation-delay: 2s;
+    }
+
+    .b6 {
+        animation-delay: 5s;
+    }
+
+    .b7 {
+        animation-delay: 0.7s;
+    }
+
+    .b8 {
+        animation-delay: 4s;
+    }
+
+    .bubbles {
+        width: 10rem;
+        height: 100vh;
+    }
+
+    .profileFormImage {}
+
+    #image {
+        border-radius: 100%;
+    }
+
+    .profileFormText {
+        padding: 3%;
+        margin: 3%;
+    }
+</style>
+<div class="joinClassContainer">
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b1" /></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b2" /></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b3" /></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b4" /></div>
+
+    <div style="text-align: center;" class="formContainer margin">
+        <div class="profileFormImage"><img style="height: 100px; width: 100px;" id='image' src="{{userSchema.image}}" class="plusIcon">
+        </div>
+        <h2>{{userSchema.firstName}}</h2>
+        <form action="/profile" method="POST" class="margin">
+            <input type="text" name="firstName" value="{{userSchema.firstName}}" class="margin profileFormText">
+            <input type="text" name="lastName" value="{{userSchema.lastName}}" class="margin profileFormText">
+            <br>
+            <label for="phone">Phone </label>
+            <br>
+            <input type="text" name="phone" value="{{userSchema.phone}}" class="margin profileFormText">
+            <br>
+            <label for="about">About Me:</label>
+            <br>
+            <input type="text-area" name="about" value="{{userSchema.about}}"
+                style="width: 10rem; height: 4rem" class="margin profileFormText">
+            <div>
+                <input type="submit" value="Update" class="btn margin" style="margin-top: 4%;">
+            </div>
+        </form>
+
+    </div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b5" /></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b6" /></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b7" /></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b8" /></div>
+</div>
+
+
+<script>
+
+    // %3A - :
+    // %2F - /
+    // %3D - =
+
+    let allCookie = document.cookie.split(';');
+    let imageLink;
+    for (let i = 0; i < allCookie.length; i++) {
+        if (allCookie[i].includes('image=')) {
+            imageLink = allCookie[i].split('=')[1];
+        }
+    }
+
+    imageLink = imageLink.replaceAll("%3A", ":");
+    imageLink = imageLink.replaceAll("%2F", "/");
+    imageLink = imageLink.replaceAll("%3D", "=");
+
+    const image = document.getElementById('image');
+    image.src = imageLink;
+    console.log(imageLink);
+
+    function signOut(user) {
+        console.log('btn clicked');
+        window.gapi.load('auth2', () => {
+            window.gapi.auth2
+                .init({
+                    client_id:
+                        '665729303262-pvgu50j2sjrbafq2jjibo4t08qmha2pr.apps.googleusercontent.com'
+                })
+                .then(() => {
+                    window.gapi.auth2
+                        .getAuthInstance()
+                        .signOut()
+                        .then(function () {
+                            console.log('User signed out.');
+                            location.assign('/');
+                        });
+                });
+        })
+    }
+</script>
