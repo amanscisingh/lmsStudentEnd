@@ -1,18 +1,14 @@
-<h4>assignment will appear here...</h4>
-<br>
-
 <style>
     .MainBox{
         height: 89vh;
-        padding-top: 5%;
-        border: 2px solid red;
+        padding-top: 2%;
+        border: 2px solid black;
         display: flex;
         flex-direction: row;
     }
 
     .DetailsBox{
-        border: 2px solid green;
-        width: 78%;
+        width: 72%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -20,7 +16,12 @@
 
     .UploadBox{
         border: 2px solid blue;
-        width: 20%;
+        width: 28%;
+        height: 300px;
+        box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+        border-radius: 0.5rem;
+        overflow: hidden;
+        margin: 10px;
     }
 
     .detail{
@@ -76,43 +77,92 @@
         border-radius: 8px;
     }
     #description{
-        border-radius: 8px;
+        letter-spacing: .01428571em;
+        font-family: Roboto,Arial,sans-serif;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.25rem;
+        color: #5f6368;
     }
     #showFile{
         height: 1000px;
-        width: 810px;
+        width: 780px;
+        border-radius: 10px;
+    }
+
+    .marksAndDeadline{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #title{
+        font-family: 'Google Sans',Roboto,Arial,sans-serif;
+        color: #1967d2;
+        font-size: 2.5rem;
+        font-weight: 400;
+        line-height: 2.5rem;
+    }
+
+    #deadline{
+        letter-spacing: .01785714em;
+        font-family: 'Google Sans',Roboto,Arial,sans-serif;
+        font-size: 0.875rem;
+        font-weight: bold;
+        line-height: 1.25rem;
+        color: #3c4043;
+    }
+
+    #totalMarks{
+        letter-spacing: .01785714em;
+        font-family: 'Google Sans',Roboto,Arial,sans-serif;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.25rem;
+        color: #3c4043;
+    }
+
+    .fileUploader{
+        font-family: 'Google Sans',Roboto,Arial,sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.25px;
+    }
+
+    .fileUploaderButton{
+        padding: 10px;
+        height: fit-content;
+        background-color: #1967d2;
+        color: white;
+        border-radius: 10px;
     }
 
 </style>
 
 <div class="MainBox">
     <div class="DetailsBox">
-        {{!-- title
-        description
-        totalMarks
-        deadline
-        iframe --}}
-
-        <div class="detail" id="title">{{assignmentData.title}}</div>
-        <div class="detail" id="description">{{assignmentData.description}}</div>
-        <div class="detail" id="totalMarks">{{assignmentData.totalMarks}}</div>
-        <div class="detail" id="deadline">{{formatDate assignmentData.deadline 'MMMM Do YYYY, h:mm:ss a'}}</div>
+        <div class="detail" id="title" style="border: none; margin-left:0px;">{{assignmentData.title}}</div>
+        <div class="detail" id="description" style="margin-top: 0px; padding-top: 0px; border: none;">{{assignmentData.description}}</div>
+        <div class="marksAndDeadline detail"  style="margin-top: 0px; border: none;">
+            <div id="totalMarks"><span class="marksObtained" style="font-weight: bold;">Nothing</span>/{{assignmentData.totalMarks}}</div>
+            <div id="deadline">Due {{formatDate assignmentData.deadline 'MMMM Do YYYY, h:mm:ss a'}}</div>
+        </div>
         <div class="detail" id="showFile">
             <iframe style="width: 100%;  height: 100%" src="/open/{{assignmentData.fileUploadName}}#view=fitH"  frameborder="0"></iframe>
         </div>
     </div>
 
     <div class="UploadBox">
-        <h1 id="uploadText">Upload here</h1>
+        <h1 id="uploadText" style="margin-left: 15px;">Upload here</h1>
 
         <form id="createAssignmentForm" action="#" method="POST" class="margin">
             <div id="uploadForm">
-                <input type="file" name="file" id="file" class="custom-file-input margin">
+                <input type="file" name="file" id="file" class="custom-file-input margin fileUploader">
                 <br>
-                <label for="file" id="fileLabel">You Have Not Choosen Any File Yet!!!</label>
+                <label for="file" id="fileLabel" style="margin-left: 13px;">You Have Not Choosen Any File Yet!!!</label>
             </div>
 
-            <input type="submit" value="Final Upload Assignment" id="createAssignment" class="btn margin">
+            <input type="submit" value="+ Add or Create" id="createAssignment" class="fileUploaderButton margin">
         </form>
     </div>
 </div>
@@ -152,7 +202,9 @@
 
     if({{hasUploaded}}){
         uploadForm.style.display='none'
-        uploadText.innerHTML="Already Submitted"
+        uploadText.innerHTML="Graded"
+        uploadText.style.textAlign="center"
+        uploadText.style.marginTop="130px"
         createAssignment.style.display='none'
 
     }
