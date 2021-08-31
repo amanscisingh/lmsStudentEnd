@@ -31,7 +31,7 @@ studentDashboardRoute.get('/', async (req, res) => {
 studentDashboardRoute.get('/join', (req, res) => {
     try {
         // passing all the class details in form of array to the template
-        res.render('joinClass', { layout: 'studentLoggedIn' });
+        res.render('joinClass', { layout: 'blank' });
     } catch (error) {
         res.send(error);
     }

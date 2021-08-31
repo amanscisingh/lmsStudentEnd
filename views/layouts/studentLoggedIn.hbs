@@ -3,50 +3,149 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="665729303262-pvgu50j2sjrbafq2jjibo4t08qmha2pr.apps.googleusercontent.com">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
     <title>Dashboard</title>
     <style>
         *{
-            margin: 0;
-            padding: 0;
-            font-size: large;
+            font-family: 'Open Sans', sans-serif;
         }
         body{
-            background-color: #c9d0d0;
+            background-color: rgb(224 229 231);
         }
         .header{
             display : flex;
             justify-content: flex-end;
-            padding: 27px;
-            box-shadow: 2px 2px 10px 2px gray;
+            padding: 10px;
+            box-shadow: 0 0 10px 1px gray;
             background-color: white;
             z-index: 1;
         }
-        .add_class_icon{
-            text-decoration: none;
-            position: absolute;
-            top: 4%;
-            right: 9%;
+        .container{
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            width: 100%;
+
         }
-        .heading_logo_text{
-            position: absolute;
-            left: 5rem;
+
+        .container-span{
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            justify-content: center;
+
         }
-        .heading_logo_img{
-            height: 50px;
-            width: 50px;
+
+        .container-element{
+            margin: 0px auto 0px auto;
+        }
+        
+        {{!-- .container-element:hover{
+            background-color: rgba(0, 0, 0, 0.384);
+            box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.285);
+        } --}}
+        .plusIcon{
+            border-radius: 100%;
+        }
+        .plusIcon:hover{
+            background-color: rgba(0, 0, 0, 0.384);
+            box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.285);
+        }
+        #joinClass{
+            height: 30px; 
+            display:none;
             position: absolute;
-            left: 1rem; top: 0.4rem;
-            {{!-- border: 2px solid blue; --}}
+            top: 11%;
+            right: 14.5%;
+            width: 80px;
+            background-color: rgba(0, 0, 0, 0.562);
+            color: white;
+            border-radius: 10%;
+            align-items: center;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="http://old.iitbhu.ac.in/icmc2018/apm/images/IITBHU-Logo.jpg" alt="iit_bhu_logo" class="heading_logo_img"/>
-        <h3 class="heading_logo_text">IIT BHU</h3>
-        <a href="/studentDashboard/join" class="add_class_icon">✔ Join Class</a>
-        <h3 class="login_icon">👍</h3>
-    </div>
+     <div class="header">
+
+        <div class="container">            
+            <span class="container-span" style="width:15%;">
+                <img src="http://old.iitbhu.ac.in/icmc2018/apm/images/IITBHU-Logo.jpg" alt="iit_bhu_logo" style="height: 60px; width: 60px;"/>
+                <h3 style="padding-left: 5%; padding-top:10%;">IIT-BHU</h3>
+            </span>
+
+            <span style="width: 65%;">
+
+            </span>
+            
+            <span class="container-span" style="width:20%;">
+                <a href="/studentDashboard/join" class="container-element">
+                <img src="https://www.downloadclipart.net/large/plus-transparent-png.png" id="plusIcon" class="plusIcon" name="submit" style="height: 40px; width: 40px; padding: 7px" alt="plus"/>
+                    <div id="joinClass">Join Class</div></a>
+                <div class="addClassIcon2 container-element"><img style="height: 60px; width: 60px;" id='image' src="#" class="plusIcon">  </div>
+                <a href="#" onclick="signOut()" class="container-element"><img style="height: 100%; width: 100%;" src="/images/logoutDesign.svg">  </a>
+            </span>
+            
+        </div>
+    </div> 
+
+    <script src="https://apis.google.com/js/platform.js" async defer> </script>
+
+    <script>
+
+        // %3A - :
+        // %2F - /
+        // %3D - =
+
+        let allCookie = document.cookie.split(';');
+        let imageLink;
+        for(let i=0;i<allCookie.length;i++){
+            if(allCookie[i].includes('image=')){
+                imageLink = allCookie[i].split('=')[1];
+            }
+        }
+
+        imageLink = imageLink.replaceAll("%3A", ":");
+        imageLink = imageLink.replaceAll("%2F", "/");
+        imageLink = imageLink.replaceAll("%3D", "=");
+
+        const image = document.getElementById('image');
+        image.src = imageLink;
+        console.log(imageLink);
+
+        function signOut(user) {
+            console.log('btn clicked');
+            window.gapi.load('auth2', () => {
+            window.gapi.auth2
+                .init({
+                client_id:
+                    '665729303262-pvgu50j2sjrbafq2jjibo4t08qmha2pr.apps.googleusercontent.com'
+                })
+                .then(() => {
+                window.gapi.auth2
+                    .getAuthInstance()
+                    .signOut()
+                    .then(function() {
+                    console.log('User signed out.');
+                    location.assign('/');
+                    });
+            });
+        })
+        }
+                
+
+        document.getElementById("plusIcon").addEventListener("mouseover", function(e) {
+            document.getElementById("joinClass").style.display="flex";
+            document.getElementById("joinClass").style.justifyContent="center";
+            console.log('event fired')
+        });
+        document.getElementById("plusIcon").addEventListener("mouseout", function() {
+            document.getElementById("joinClass").style.display="none";
+            console.log('event fired')
+        });
+
+    </script>
     {{{ body }}}
 </body>
 </html>

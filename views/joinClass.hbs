@@ -1,29 +1,113 @@
 <style>
-    .btn{
-        padding: 5px;
-        border-radius: 5px;
-        background-color: aquamarine;
+    body{
+        background-color: rgb(224 229 231);
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
     }
-    .margin{
-        margin: 10px;
+    .btn {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #4cbdff;
+    border: none;
+    width: 150px;
+    height: 40px;
+    font-size: large;
+}
+.btn:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 4px 2px #00b5ef;
+}
+.className {
+    padding: 7px;
+}
+
+.joinClassContainer{
+    display: flex;
+}
+.formContainer {
+    width: 25%;
+    padding: 20px;
+    margin: 0%;
+    margin-top: 15%;
+    background-color: #94d8f8cb;
+    box-shadow: 0px 0px 6px 3px rgb(94, 93, 93);
+    color: black;
+    height: 33%;
+}
+
+.bubble{
+    position: absolute;
+    bottom: 0%;
+        width: 50px;
+        height: 50px;
+        margin-left: 2%;
+        animation: bubbleAnimation 7s linear infinite;
     }
-    .className{
-        padding: 7px;
-        border-radius: 5px;
+    @keyframes bubbleAnimation{
+        0%{
+            transform: translateY(0);
+            opacity: 1;
+        }
+        50%{
+            opacity: 1;
+        }
+        70%{
+            opacity: 1;
+        }
+        100%{
+            transform: translateY(-80vh);
+            opacity: 0;
+        }
     }
-    .formContainer{
-        margin-top: 20%;
+    .b1{
+        animation-delay: 0.2s;
     }
-    .textArea{
-        border-radius: 5px;
+    .b2{
+        animation-delay: 3s;
+    }
+    .b3{
+        animation-delay: 0.7s;
+    }
+    .b4{
+        animation-delay: 5s;
+    }
+    .b5{
+        animation-delay: 2s;
+    }
+    .b6{
+        animation-delay: 5s;
+    }
+    .b7{
+        animation-delay: 0.7s;
+    }
+    .b8{
+        animation-delay: 4s;
+    }
+    .bubbles{
+        width: 10rem;
+        height: 100vh;
     }
 </style>
-<div style="text-align: center;" class="formContainer margin">
-    <h4>Form To Create Class</h4>
+<div class="joinClassContainer">
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b1"/></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b2"/></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b3"/></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b4"/></div>
+    
+    <div style="text-align: center;" class="formContainer margin">
+        <h2>Form To Join Class</h2>
 
-    <form action="/studentDashboard/join" method="POST" class="margin">
-        <input type="text" name="classCode" placeholder="Class Name" class="margin className"> 
-        <input type="submit" value="Join Class" class="btn margin">
-    </form>
+        <form action="/studentDashboard/join" method="POST" class="margin">
+            <input type="text" name="classCode" placeholder="Class Name" class="margin className"> 
+            <div>
+                <input type="submit" value="Join Class" class="btn margin" style="margin-top: 4%;">
+            </div>
+        </form>
 
+    </div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b5"/></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b6"/></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b7"/></div>
+    <div class="bubbles "><img src="/images/blueBubble-removebg-preview.png" class="bubble b8"/></div>
 </div>

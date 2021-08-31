@@ -346,25 +346,6 @@ input {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-img {
-    border-radius: 50px;
-    margin-top: 10px;
-    position: relative;
-    top: 0%;
-    left: 31%;
-    z-index: 1;
-}
-
-.upperPart {
-    background-image: linear-gradient(rgb(132, 177, 218), white);
-    color: rgb(44, 24, 24);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    text-align: center;
-    padding: 15px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-}
-
 .lowerPart {
     padding: 23px;
     display: flex;
@@ -372,11 +353,6 @@ img {
     background-color: white;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-}
-
-.nameAndPhoto {
-    display: flex;
-    padding: 20px;
 }
 
 .description {
