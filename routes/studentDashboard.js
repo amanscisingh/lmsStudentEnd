@@ -190,7 +190,7 @@ studentDashboardRoute.get('/:classCode/assignment/:assignmentId', async (req, re
         }
 
         res.render('assignmentDashboard', {
-             layout: 'singleClass',  
+             layout: 'studentLoggedIn',  
              classCode: classCode, 
              assignmentData, 
              hasUploaded, 
